@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════════════════════════════
+# WISE Project — gitignore
+# ═══════════════════════════════════════════════════════════════════════
+# This file prevents sensitive content from being pushed to a public repo.
+# Only `index.html` (the public-safe stripped presentation) should be
+# tracked. Everything else stays local.
+
+# ── Files containing tokens / dashboard credentials — NEVER COMMIT ──
+WISE_Presentation.html
+WISE_Dashboard.html
+
+# Any file that backs up a token-bearing version
+*.backup_pre_*
+*.backup_*
+
+# Apps Script local copies, if any
+.clasp.json
+appsscript.json
+
+# ── Editor / OS clutter ──
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ── Build artifacts (just in case) ──
+node_modules/
+dist/
+build/
+*.log
+
+# ── Python scratch from patches ──
+__pycache__/
+*.pyc
+/tmp/r*_*.py
