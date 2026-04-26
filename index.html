@@ -238,9 +238,19 @@ section { padding: 120px 28px; }
   min-height: 100vh; display: flex; align-items: center; padding-top: 146px; padding-bottom: 88px;
 }
 .hero-kicker {
-  display: inline-flex; align-items: center; gap: 12px; color: var(--ink-dim); font-size: 12px; letter-spacing: 0.04em; margin-bottom: 18px;
+  display: inline-flex; align-items: center; gap: 14px;
+  color: var(--ink); font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: -0.005em;
+  margin-bottom: 26px;
 }
-.hero-kicker .dot, .closing-sig .dot {
+.hero-kicker .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 14px rgba(22,155,118,0.35);
+  flex-shrink: 0;
+}
+.closing-sig .dot {
   width: 6px; height: 6px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 10px rgba(22,155,118,0.28);
 }
 .hero h1 {
@@ -458,17 +468,19 @@ footer { padding: 34px 28px 50px; border-top: 1px solid var(--line); text-align:
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero" id="intro">
   <div class="container">
-    <div class="hero-kicker reveal"><span class="dot"></span><span>WISE · Wheel Integrated Strike Engine · v9.3</span></div>
-    <h1 class="reveal delay-1">WISE tells an MES wheel trader <em>which strike to sell now.</em></h1>
-    <p class="hero-sub reveal delay-2">It reads the live options chain, understands whether you are in the put phase or the covered call phase, and returns one recommendation with the rationale behind it. The goal is simple: <span class="accent">harvest risk adjusted premium without hiding the tradeoffs.</span></p>
-    <div class="hero-strip reveal delay-3">
-      <div class="item"><div class="k">What it is</div><div class="v">A phase aware decision engine for the MES futures wheel.</div></div>
-      <div class="item"><div class="k">What decision it makes</div><div class="v">Which put or covered call strike best balances premium, survivability, and context right now.</div></div>
-      <div class="item"><div class="k">Why it matters</div><div class="v">It turns a dense options chain into one auditable action instead of a vague signal.</div></div>
+    <div class="section-header">
+      <div class="eyebrow reveal">The strategy &amp; product</div>
+      <h2 class="headline reveal delay-1">The Wheel &amp; <em>WISE.</em></h2>
+      <p class="lede reveal delay-2">The wheel is a premium-selling strategy on equity-index futures. <strong>WISE</strong> — the Wheel Integrated Strike Engine — is the decision engine that reads your live chain and tells you which strike to sell next.</p>
     </div>
-    <div class="hero-note reveal delay-4"><strong>Scope:</strong> MES / ES weekly index options · two engine wheel workflow · recommendation with decomposition, not execution.</div>
+    <div class="hero-strip reveal delay-3">
+      <div class="item"><div class="k">The strategy</div><div class="v">The wheel — sell put, accept assignment, sell call, repeat.</div></div>
+      <div class="item"><div class="k">The chain</div><div class="v">MES or ES weekly index options.</div></div>
+      <div class="item"><div class="k">The output</div><div class="v">One recommended strike with target entry, size, and full rationale.</div></div>
+    </div>
+    <div class="hero-note reveal delay-4"><strong>Scope:</strong> Recommendation only — WISE does not place orders.</div>
   </div>
 </section>
 
