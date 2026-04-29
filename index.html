@@ -471,16 +471,19 @@ footer { padding: 34px 28px 50px; border-top: 1px solid var(--line); text-align:
 <section class="hero" id="intro">
   <div class="container">
     <div class="section-header">
-      <div class="eyebrow reveal">The strategy &amp; product</div>
-      <h2 class="headline reveal delay-1">The Wheel &amp; <em>WISE.</em></h2>
-      <p class="lede reveal delay-2">The wheel is a premium-selling strategy on equity-index futures. <strong>WISE</strong> — the Wheel Integrated Strike Engine — is the decision engine that reads your live chain and tells you which strike to sell next.</p>
+      <div class="eyebrow reveal">Wheel Integrated Strike Engine · v10</div>
+      <h2 class="headline reveal delay-1">WISE</h2>
+      <p class="lede reveal delay-2">The wheel is a premium-selling strategy on equity-index futures. Sell a put. Get assigned, or don't. If assigned, sell a covered call. Collect premium on both legs. Repeat. The edge is structural: implied volatility consistently overstates what actually happens, and the wheel harvests that gap systematically.</p>
     </div>
-    <div class="hero-strip reveal delay-3">
-      <div class="item"><div class="k">The strategy</div><div class="v">The wheel — sell put, accept assignment, sell call, repeat.</div></div>
-      <div class="item"><div class="k">The chain</div><div class="v">MES or ES weekly index options.</div></div>
-      <div class="item"><div class="k">The output</div><div class="v">One recommended strike with target entry, size, and full rationale.</div></div>
+    <p class="reveal delay-3" style="font-size: clamp(17px, 1.7vw, 22px); color: var(--ink); line-height: 1.5; max-width: 760px; margin-bottom: 28px;">The strategy is simple. The decision it forces every cycle is not — which strike, which expiration, given today's chain, today's volatility regime, and where you currently sit in the cycle.</p>
+    <p class="lede reveal delay-4" style="margin-bottom: 10px;">That is what WISE solves. It reads your live options chain, scores every candidate by premium quality and survivability, applies risk gates for the current environment, and returns one recommendation with the reasoning visible behind it.</p>
+    <p class="reveal delay-4" style="font-size: clamp(14px, 1.1vw, 16px); color: var(--emerald); font-weight: 600; max-width: 480px; margin-bottom: 32px; letter-spacing: 0.01em;">Not a signal. A trade you can defend.</p>
+    <div class="hero-strip reveal delay-5">
+      <div class="item"><div class="k">The edge</div><div class="v">Implied vol tends to overstate realized. The wheel collects that premium on both legs, systematically.</div></div>
+      <div class="item"><div class="k">The decision</div><div class="v">Which strike, which expiry, which phase — the same judgment call forced every cycle.</div></div>
+      <div class="item"><div class="k">What WISE returns</div><div class="v">One recommended strike with score, rationale, risk gates, and every step that produced it.</div></div>
     </div>
-    <div class="hero-note reveal delay-4"><strong>Scope:</strong> Recommendation only — WISE does not place orders.</div>
+    <div class="hero-note reveal delay-5"><strong>Scope:</strong> Recommendation only — WISE does not place orders.</div>
   </div>
 </section>
 
@@ -517,7 +520,7 @@ footer { padding: 34px 28px 50px; border-top: 1px solid var(--line); text-align:
       <div class="phil-item"><div class="phil-num">02</div><h3>Score the phase you are actually in.</h3><p>Put phase uses the live put chain. Call phase uses the live call chain. WISE does not project future chain economics to make the current decision look cleaner than it is.</p></div>
       <div class="phil-item"><div class="phil-num">03</div><h3>Assignment is a transition, not a model failure.</h3><p>When a short put becomes long MES, the engine switches phase and records cost basis. That keeps the wheel unified instead of pretending the put leg is the whole strategy.</p></div>
       <div class="phil-item"><div class="phil-num">04</div><h3>Rank for premium velocity, then penalize fragility.</h3><p>The model looks for edge per week per dollar of provisioned capital, then discounts candidates for impairment, proximity, floor, and recovery burden.</p></div>
-      <div class="phil-item"><div class="phil-num">05</div><h3>Every output should be explainable.</h3><p>There is one config voice, one canonical pipeline, and one surface that shows the reasoning. Auditability is designed in rather than added later.</p></div>
+      <div class="phil-item"><div class="phil-num">05</div><h3>Every output should be explainable.</h3><p>There is one config voice, one canonical pipeline, and one surface that shows the reasoning. When the system blocks a trade, it names the gate, shows the analytical candidate it would have picked, and explains in plain English what the risk was — auditability extends to refusals, not just recommendations.</p></div>
       <div class="phil-item" style="background: linear-gradient(135deg, rgba(52,211,153,0.04), rgba(167,139,250,0.04));"><div class="phil-num" style="color: var(--emerald);">→</div><h3>The result is a clearer wheel workflow.</h3><p>These principles later show up as state separation, workflow gating, and phase specific scoring. The logic stays consistent from the math to the dashboard.</p></div>
     </div>
   </div>
@@ -576,10 +579,10 @@ footer { padding: 34px 28px 50px; border-top: 1px solid var(--line); text-align:
     <div class="arch-stack">
       <div class="arch-layer reveal"><div class="idx"><span class="num">01</span>Layer</div><div><div class="name">Market data ingestion</div><div class="files">Spot · chain · greeks · volatility · events</div></div><div class="detail"><strong>Plain language:</strong> Collect the live market inputs WISE needs before any judgment is made.<br><strong>Technical note:</strong> Includes spot, chain and greek data, realized volatility anchors, VIX term structure, dealer gamma, and the macro events calendar.</div></div>
       <div class="arch-layer reveal delay-1"><div class="idx"><span class="num">02</span>Layer</div><div><div class="name">Shared context builder</div><div class="files">05_Analytics_Regime</div></div><div class="detail"><strong>Plain language:</strong> Translate raw feeds into one shared market context every downstream layer can trust.<br><strong>Technical note:</strong> Computes expected move, IV rank, realized vol anchors, gamma state, regime posture, and environment score in an immutable ctx object.</div></div>
-      <div class="arch-layer reveal delay-2"><div class="idx"><span class="num">03</span>Layer</div><div><div class="name">Safety &amp; deployment gating</div><div class="files">07_Deployment_Gate</div></div><div class="detail"><strong>Plain language:</strong> Stop the system from acting when the environment is structurally hostile.<br><strong>Technical note:</strong> Applies event windows, crash filters, extreme regime checks, capital adequacy, and crisis logic before any recommendation becomes executable.</div></div>
-      <div class="arch-layer reveal delay-3"><div class="idx"><span class="num">04</span>Layer</div><div><div class="name">VRP scoring + DTE advisor</div><div class="files">08_WISE_Engine</div></div><div class="detail"><strong>Plain language:</strong> Rank expirations first, then rank strikes with a formal scoring model.<br><strong>Technical note:</strong> Combines per strike VRP, liquidity, survivability, impairment, proximity, floor, recovery burden, and DTE fit into composite decisions.</div></div>
-      <div class="arch-layer reveal delay-4"><div class="idx"><span class="num">05</span>Layer</div><div><div class="name">Orchestration &amp; state derivation</div><div class="files">09_Pipeline</div></div><div class="detail"><strong>Plain language:</strong> Run the full pass once and keep the analytics object consistent all the way through.<br><strong>Technical note:</strong> Handles refresh, context, gates, scoring, state derivation, rationale generation, and validation before writing the canonical object.</div></div>
-      <div class="arch-layer reveal delay-5"><div class="idx"><span class="num">06</span>Layer</div><div><div class="name">Writers &amp; dashboard</div><div class="files">10_Writers · 12_Web_UI · Dashboard.html</div></div><div class="detail"><strong>Plain language:</strong> Present the recommendation in a form a trader can act on and audit.<br><strong>Technical note:</strong> Persists analytics to storage, serves one RPC response to the browser, and renders the action card, supporting stats, rationale, and definitions.</div></div>
+      <div class="arch-layer reveal delay-2"><div class="idx"><span class="num">03</span>Layer</div><div><div class="name">Safety &amp; deployment gating</div><div class="files">07_Deployment_Gate</div></div><div class="detail"><strong>Plain language:</strong> Stop the system from acting when the environment is structurally hostile.<br><strong>Technical note:</strong> Applies hard blocks for VIX ≥ 30, half-size gates at VIX 28–30, FOMC day hard block, structural decline detection, and slow recovery cycle freeze — in addition to event windows, capital adequacy, and capital impairment checks. All gate results are logged and surfaced on the dashboard.</div></div>
+      <div class="arch-layer reveal delay-3"><div class="idx"><span class="num">04</span>Layer</div><div><div class="name">VRP scoring + DTE advisor</div><div class="files">08_WISE_Engine</div></div><div class="detail"><strong>Plain language:</strong> Rank expirations first, then rank strikes with a formal scoring model.<br><strong>Technical note:</strong> Combines per strike VRP, liquidity, survivability, impairment, proximity, floor, recovery burden, and DTE fit into composite decisions. FOMC window scoring applies PRE_FOMC dampening (0.70×) and POST_FOMC boost (1.20×); a Π_streak penalty activates when a down-streak exceeds threshold.</div></div>
+      <div class="arch-layer reveal delay-4"><div class="idx"><span class="num">05</span>Layer</div><div><div class="name">Orchestration &amp; state derivation</div><div class="files">09_Pipeline</div></div><div class="detail"><strong>Plain language:</strong> Run the full pass once and keep the analytics object consistent all the way through.<br><strong>Technical note:</strong> Handles refresh, context, gates, scoring, adaptive contract sizing (Kelly-based with slow recovery freeze), state derivation, plain-English block rationale generation, and validation before writing the canonical object.</div></div>
+      <div class="arch-layer reveal delay-5"><div class="idx"><span class="num">06</span>Layer</div><div><div class="name">Writers &amp; dashboard</div><div class="files">10_Writers · 12_Web_UI · Dashboard.html</div></div><div class="detail"><strong>Plain language:</strong> Present the recommendation in a form a trader can act on and audit.<br><strong>Technical note:</strong> Persists analytics to storage, serves one RPC response to the browser, and renders the action card, risk interpretation card, signal ribbon (including FOMC window signal and structural decline flag), supporting stats, and definitions.</div></div>
     </div>
   </div>
 </section>
@@ -593,7 +596,7 @@ footer { padding: 34px 28px 50px; border-top: 1px solid var(--line); text-align:
     </div>
     <div class="formula-grid">
       <div class="reveal delay-3">
-        <div class="eyebrow" style="margin-bottom: 0;">Put score · v9.3</div>
+        <div class="eyebrow" style="margin-bottom: 0;">Put score · v10</div>
         <p class="formula-note">Plain language: WISE rewards premium that looks real, liquid, and well matched to the regime, then discounts strikes that expose too much capital or create a weak recovery path.</p>
         <div class="formula"><span class="label">Put composite</span>
 <span class="c">// numerator: edge × liquidity × regime fit</span>
@@ -652,13 +655,15 @@ I<sub>i</sub> <span class="op">=</span> PV · max<span class="op">(</span>Q<sub>
   <div class="container">
     <div class="section-header">
       <div class="eyebrow reveal">Capabilities</div>
-      <h2 class="headline reveal delay-1">Four capabilities that support <em>one recommendation.</em></h2>
+      <h2 class="headline reveal delay-1">Five capabilities that support <em>one recommendation.</em></h2>
     </div>
     <div class="cap-grid">
       <div class="cap reveal"><div class="sub">Put phase</div><h3>Phase aware put scorer</h3><p>A composite scoring model where edge comes from per strike VRP and decayable premium, then gets discounted by impairment, proximity, floor, and recovery burden.</p><ul><li>Support ratio aware proximity thresholds</li><li>Horizon conditioned tail move Q<sub>H</sub></li><li>Break even above spot gate calibrated by support and regime</li><li>Dynamic VRP calibration from VIX term, gamma, and IV rank</li></ul></div>
       <div class="cap alt reveal delay-1"><div class="sub">Call phase</div><h3>Call recovery scorer</h3><p>Extrinsic only logic so intrinsic value above cost basis never masquerades as edge. The engine still displays carry, dead zone status, and full cycle economics honestly.</p><ul><li>Carry advantage computed from spot and cost basis</li><li>Dead zone flag when spot sits below cost basis</li><li>Full retrospective P&amp;L with put premium, call premium, and underlying</li><li>Top candidate and skip reasons remain auditable</li></ul></div>
       <div class="cap alt reveal delay-2"><div class="sub">Before chain download</div><h3>DTE advisor</h3><p>Before any chain is downloaded, WISE ranks DTE 0 to 5 by fit to regime, events, gamma, and volatility so analysis starts in the right expiry.</p><ul><li>CarryFit reflects theta decay quality by DTE</li><li>EventFit checks overlap with risk windows</li><li>GammaFit uses dealer positioning</li><li>VolFit reflects implied and realized volatility posture</li></ul></div>
       <div class="cap reveal delay-3"><div class="sub">Risk simulation</div><h3>Trade fragility simulator</h3><p>A path tool that tests the actual position instead of an abstract strategy. It is used to understand fragility, not to promise future profit.</p><ul><li>VRP calibrated realized volatility for daily steps</li><li>Touch, breach, and assignment probabilities</li><li>Max adverse excursion and expiry CVaR</li><li>Configurable paths, strike override, and breach threshold</li></ul></div>
+      <!-- v10 — 5th capability card -->
+      <div class="cap alt reveal delay-4" style="grid-column: 1 / -1;"><div class="sub">v10 — always on</div><h3>Adaptive risk management</h3><p>A layered system of named gates and adaptive sizing that governs whether a trade happens at all, at what size, and with what explicit rationale — entirely separate from the scoring engine that picks the strike.</p><ul><li>VIX hard stop (≥ 30) and half-size band (28–30) with live thresholds on the dashboard</li><li>FOMC window logic: PRE_FOMC score dampening (0.70×), FOMC day hard block, POST_FOMC boost (1.20×)</li><li>Structural decline detection: 10-day MA50 down-streak triggers Π_streak penalty and posture flag</li><li>Slow recovery freeze: cycle &gt; 20 trading days locks contracts for 30 calendar days</li><li>Plain-English block rationale: every blocked or modified run produces a severity label, a quantified risk sentence, and a next-action note</li></ul></div>
     </div>
   </div>
 </section>
@@ -690,7 +695,7 @@ I<sub>i</sub> <span class="op">=</span> PV · max<span class="op">(</span>Q<sub>
       <div class="flow-step reveal"><div class="flow-node">00</div><div class="flow-content"><h4>Pick the first expiration to inspect</h4><div class="src">08_WISE_Engine → computeOptimalDTE_</div><p>Outcome: a prioritized expiry to inspect first. User value: the workflow starts in the part of the chain most worth attention.</p></div></div>
       <div class="flow-step reveal delay-1"><div class="flow-node">01</div><div class="flow-content"><h4>Refresh live inputs</h4><div class="src">09_Pipeline → refreshSpotPrices_ / refreshTechnicals_ / refreshVixTermStructure_</div><p>Outcome: current market inputs with freshness checks. User value: the recommendation is grounded in the current tape, not stale assumptions.</p></div></div>
       <div class="flow-step reveal delay-2"><div class="flow-node">02</div><div class="flow-content"><h4>Build shared context</h4><div class="src">05_Analytics_Regime → buildSharedContext_</div><p>Outcome: one trusted context object. User value: every later number is internally consistent because the system reads the same market picture.</p></div></div>
-      <div class="flow-step reveal delay-3 active"><div class="flow-node">03</div><div class="flow-content"><h4>Apply safety gates</h4><div class="src">07_Deployment_Gate</div><p>Outcome: a clear go, block, or caution posture before action. User value: WISE can still show what it liked analytically without pretending it should be traded.</p></div></div>
+      <div class="flow-step reveal delay-3 active"><div class="flow-node">03</div><div class="flow-content"><h4>Apply safety gates</h4><div class="src">07_Deployment_Gate</div><p>Outcome: a clear go, block, or caution posture before action. Named gates in this layer include: VIX hard stop (≥ 30), VIX half-size band (28–30), FOMC day hard block, event Tier 4/5 block, structural decline flag, slow recovery cycle freeze, and capital adequacy. User value: WISE can still show what it liked analytically — with a plain-English explanation of exactly why it was withheld.</p></div></div>
       <div class="flow-step reveal delay-4"><div class="flow-node">04</div><div class="flow-content"><h4>Score and rank candidates</h4><div class="src">08_WISE_Engine → scorePut_ / scoreCall_</div><p>Outcome: one best candidate per phase. User value: the recommendation is comparative, not arbitrary.</p></div></div>
       <div class="flow-step reveal delay-5"><div class="flow-node">05</div><div class="flow-content"><h4>Separate what is true from what is tradable</h4><div class="src">09_Pipeline → deriveEventStatus_ / deriveExecutionStatus_ / buildRecommendationLabel_</div><p>Outcome: three clear states. User value: you can see the best trade, whether it is executable, and how the calendar changes posture.</p></div></div>
       <div class="flow-step reveal delay-5"><div class="flow-node">06</div><div class="flow-content"><h4>Enrich and persist</h4><div class="src">09_Pipeline · 10_Writers</div><p>Outcome: a complete canonical object ready for surface and audit. User value: the dashboard and stored state speak with one voice.</p></div></div>
@@ -708,9 +713,11 @@ I<sub>i</sub> <span class="op">=</span> PV · max<span class="op">(</span>Q<sub>
     <div class="diff-list reveal delay-2">
       <div class="diff-item"><h4>How the strike is chosen</h4><div class="generic">Typical tool: use a fixed delta band or a set distance from spot.</div><div class="wise"><strong>WISE:</strong> ranks every candidate by VRP adjusted premium, liquidity, survivability, and phase specific penalties.</div></div>
       <div class="diff-item"><h4>What assignment means</h4><div class="generic">Typical tool: treat assignment as failure and design around avoiding it.</div><div class="wise"><strong>WISE:</strong> treats assignment as a controlled phase change into cost basis tracking and live covered call scoring.</div></div>
-      <div class="diff-item"><h4>How risk is handled</h4><div class="generic">Typical tool: lean on simple stop rules or generalized caution.</div><div class="wise"><strong>WISE:</strong> normalizes risk through horizon tail logic using historical gaps, implied volatility, event scaling, and capital impairment.</div></div>
-      <div class="diff-item"><h4>What the output looks like</h4><div class="generic">Typical tool: a strike and maybe a brief rationale sentence.</div><div class="wise"><strong>WISE:</strong> one recommendation with state separation, rationale blocks, and enough decomposition to audit the choice.</div></div>
+      <div class="diff-item"><h4>How risk is handled</h4><div class="generic">Typical tool: lean on simple stop rules or generalized caution.</div><div class="wise"><strong>WISE:</strong> runs named, tiered gates: <strong>VIX hard stop</strong> at ≥ 30, half-size at 28–30, <strong>FOMC day hard block</strong>, slow recovery freeze after 20-day cycles, structural decline detection after 10-day MA50 streak, and event tier blocks (Tier 3 caution through Tier 5 hard block) — each with a specific threshold and an auditable reason.</div></div>
+      <div class="diff-item"><h4>What the output looks like</h4><div class="generic">Typical tool: a strike and maybe a brief rationale sentence.</div><div class="wise"><strong>WISE:</strong> one recommendation with state separation, a <strong>plain-English risk interpretation card</strong> (severity label, quantified risk sentence, contextual notes, and a next-action line), and enough decomposition to audit the choice — including blocked runs where the rationale explains precisely what stopped it.</div></div>
       <div class="diff-item"><h4>What makes it credible</h4><div class="generic">Typical tool: the interface feels analytical, but the internals stay hidden.</div><div class="wise"><strong>WISE:</strong> the recommendation is traceable from market inputs to gating to score to final dashboard surface.</div></div>
+      <!-- v10 — new diff row -->
+      <div class="diff-item"><h4>When it tells you not to trade</h4><div class="generic">Typical tool: a vague "conditions not met" message, or no signal at all.</div><div class="wise"><strong>WISE:</strong> names the <strong>specific gate</strong> that blocked the run, shows the analytical candidate it would have selected, and delivers a plain-English risk sentence explaining what was wrong and what to watch for before re-entering.</div></div>
     </div>
   </div>
 </section>
@@ -748,12 +755,40 @@ I<sub>i</sub> <span class="op">=</span> PV · max<span class="op">(</span>Q<sub>
   </div>
 </section>
 
+
+    <!-- v10 — blocked state example -->
+    <div class="reveal delay-4" style="margin-top: 24px;">
+      <p style="color: var(--ink-dim); font-size: 13px; margin-bottom: 12px; text-align: center; letter-spacing: 0.04em; font-weight: 600; text-transform: uppercase;">Blocked state — what you see when WISE says not to trade</p>
+      <div class="dash-mock" style="background: linear-gradient(135deg, rgba(198,94,123,0.10), rgba(183,121,31,0.12));">
+        <div class="dash-frame">
+          <div class="dash-head">
+            <div class="dash-brand"><div class="mk" style="background: var(--rose);"></div>WISE · decision view</div>
+            <div class="dash-pills"><span class="dash-pill" style="background: rgba(198,94,123,0.12); border-color: rgba(198,94,123,0.28); color: var(--rose);">BLOCKED — FOMC Day</span><span class="dash-pill neutral">DTE 3</span></div>
+          </div>
+          <div style="padding: 18px 20px; border-radius: 14px; background: rgba(198,94,123,0.07); border: 1px solid rgba(198,94,123,0.24); margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+              <span style="padding: 3px 10px; border-radius: 6px; background: rgba(198,94,123,0.14); color: var(--rose); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;">HARD BLOCK</span>
+              <span style="font-size: 15px; font-weight: 600;">FOMC announcement day — no new positions.</span>
+            </div>
+            <p style="color: var(--ink-mid); font-size: 13px; margin-bottom: 10px;">The Fed announces at 2 PM ET. The analytical candidate is the <strong>7075 put</strong>, which carries 88-pt cushion against a 101-pt expected move (0.87× EM) and $157 net premium. On high-surprise FOMC days MES has historically moved 115–160 pts in the first 30 minutes after the announcement — well beyond this candidate's cushion.</p>
+            <div style="padding: 10px 14px; border-radius: 9px; background: var(--surface-2); border: 1px solid var(--line); font-size: 12px; color: var(--ink-mid);">
+              <strong style="color: var(--ink);">Next action:</strong> Re-run Wednesday after 3 PM ET once the post-FOMC tape is established. POST_FOMC boost (1.20×) applies if IV remains elevated.
+            </div>
+          </div>
+          <div class="dash-phase-cards">
+            <div class="dash-pc"><h5>Why it was blocked</h5><div class="row"><span class="lab">Gate triggered</span><span class="val" style="color: var(--rose);">FOMC_DAY</span></div><div class="row"><span class="lab">Event tier</span><span class="val">Tier 5 — Hard block</span></div><div class="row"><span class="lab">Execution</span><span class="val" style="color: var(--rose);">BLOCKED_EVENT</span></div><div class="row"><span class="lab">Event posture</span><span class="val" style="color: var(--rose);">BLOCKED</span></div></div>
+            <div class="dash-pc"><h5>Analytical candidate (withheld)</h5><div class="row"><span class="lab">Strike</span><span class="val">7,075 put</span></div><div class="row"><span class="lab">Score</span><span class="val">1.59</span></div><div class="row"><span class="lab">Cushion</span><span class="val">88 pts (0.87× EM)</span></div><div class="row"><span class="lab">Net premium</span><span class="val">$157</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <section class="closing">
   <div class="container">
     <div class="eyebrow reveal">Final takeaway</div>
     <h2 class="reveal delay-1">WISE is built for traders who want <em>a clear decision they can defend.</em></h2>
     <p class="reveal delay-2">It does not ask a first time viewer to trust a shortcut. It shows what the product is, what decision it makes, how it gets there, and why that recommendation deserves confidence. </p>
-    <div class="closing-sig reveal delay-3"><span class="dot"></span><span>WISE · Wheel Integrated Strike Engine · v9.3</span></div>
+    <div class="closing-sig reveal delay-3"><span class="dot"></span><span>WISE · Wheel Integrated Strike Engine · v10</span></div>
     <div class="closing-actions reveal delay-4">
       <a class="big-launch" data-launch="contact" href="mailto:hello@example.com?subject=WISE%20Dashboard%20Access%20Request" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
@@ -765,12 +800,13 @@ I<sub>i</sub> <span class="op">=</span> PV · max<span class="op">(</span>Q<sub>
   </div>
 </section>
 
-<footer>Built from the WISE_v9 codebase. Every claim on this page is traceable to an implemented script.</footer>
+<footer>Built from the WISE_v10 codebase. Every claim on this page is traceable to an implemented script.</footer>
 
 <script>
 const root = document.documentElement;
 const storedTheme = localStorage.getItem('wise-theme');
-const preferredTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+// R8.10: light is the product default; system preference no longer auto-flips dark.
+const preferredTheme = 'light';
 const applyTheme = (theme) => {
   root.setAttribute('data-theme', theme);
   const toggle = document.getElementById('themeToggle');
