@@ -1,0 +1,3646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Wheel — A Field Guide · WISE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Paper palette */
+  --bg:#f7f2e9;
+  --paper:#fffdf8;
+  --paper2:#fbf6ee;
+  --paper3:#f3ecdd;
+  --ink:#162033;
+  --ink-soft:#2a3447;
+  --muted:#58647a;
+  --faint:#8e97a8;
+  --line:rgba(22,32,51,.12);
+  --line-strong:rgba(22,32,51,.22);
+  
+  /* Semantic palette - kept from original */
+  --green:#169870;--greenBg:rgba(22,152,112,.1);--greenLine:rgba(22,152,112,.25);--greenSoft:#0d6b52;
+  --violet:#7057d9;--violetBg:rgba(112,87,217,.1);--violetLine:rgba(112,87,217,.25);--violetSoft:#4d38b0;
+  --amber:#b77918;--amberBg:rgba(183,121,24,.12);--amberLine:rgba(183,121,24,.26);--amberSoft:#7a4f0b;
+  --rose:#b74d72;--roseBg:rgba(183,77,114,.1);--roseLine:rgba(183,77,114,.24);
+  --blue:#2674d8;--blueBg:rgba(38,116,216,.1);--blueLine:rgba(38,116,216,.22);--blueSoft:#1a54a8;
+  
+  --shadow:0 24px 72px rgba(62,48,25,.12);
+  --shadow-soft:0 8px 24px rgba(62,48,25,.06);
+  --shadow-card:0 2px 8px rgba(62,48,25,.04);
+  
+  --sans:'Inter',system-ui,sans-serif;
+  --serif:'Instrument Serif',serif;
+  --display:'Fraunces',serif;
+  --mono:'JetBrains Mono',monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.65;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Paper texture */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(900px 600px at 0% -10%,rgba(22,152,112,.10),transparent 60%),
+    radial-gradient(800px 500px at 100% 0%,rgba(112,87,217,.08),transparent 60%),
+    radial-gradient(600px 400px at 50% 100%,rgba(183,121,24,.06),transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Subtle grain overlay */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.13 0 0 0 0 0.20 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  pointer-events:none;
+  z-index:1;
+  opacity:0.4;
+  mix-blend-mode:multiply;
+}
+
+main, nav, footer { position:relative; z-index:2; }
+
+a{color:inherit;text-decoration:none}
+
+/* ════════════════════════════════════════════════════════════════════
+   PROGRESS NAV — sticky with progress bar (Improvement #4)
+   ════════════════════════════════════════════════════════════════════ */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(247,242,233,.86);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  border-bottom:1px solid var(--line);
+}
+.navInner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 32px;
+  max-width:1480px;
+  margin:0 auto;
+  gap:24px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:var(--display);
+  font-weight:600;
+  font-size:14px;
+  letter-spacing:.01em;
+  white-space:nowrap;
+}
+.brand-mark{
+  width:24px;
+  height:24px;
+  border-radius:6px;
+  background:linear-gradient(135deg,var(--green),var(--violet));
+  position:relative;
+  flex-shrink:0;
+  box-shadow:0 4px 12px rgba(22,152,112,.2);
+}
+.brand-mark::after{
+  content:"";
+  position:absolute;
+  inset:4px;
+  border-radius:4px;
+  background:var(--paper);
+}
+.brand-mark::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border-radius:2px;
+  background:linear-gradient(135deg,var(--green),var(--violet));
+  z-index:1;
+}
+.navlinks{
+  display:flex;
+  gap:4px;
+  font-size:12px;
+  flex:1;
+  justify-content:center;
+}
+.navlinks a{
+  padding:8px 14px;
+  border-radius:999px;
+  color:var(--muted);
+  font-weight:500;
+  letter-spacing:0.01em;
+  position:relative;
+  transition:all 0.2s;
+}
+.navlinks a:hover{
+  background:rgba(22,32,51,0.05);
+  color:var(--ink);
+}
+.navlinks a.active{
+  background:var(--ink);
+  color:var(--paper);
+}
+.progressBar{
+  position:absolute;
+  bottom:-1px;
+  left:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--green),var(--violet),var(--amber));
+  width:0%;
+  transition:width 0.1s ease;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   STATE PANEL — sticky persistent (Improvement #10)
+   ════════════════════════════════════════════════════════════════════ */
+.statePanel{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  width:300px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  padding:16px 18px;
+  z-index:40;
+  font-size:13px;
+  transform:translateY(120%);
+  opacity:0;
+  transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.statePanel.show{transform:translateY(0);opacity:1}
+.statePanel.collapsed{
+  width:140px;
+  height:48px;
+  padding:12px 16px;
+  cursor:pointer;
+  overflow:hidden;
+}
+.statePanel.collapsed .statePanelBody{display:none}
+.statePanel.collapsed .statePanelHead{margin:0}
+.statePanelHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--faint);
+  font-weight:800;
+}
+.statePanelToggle{
+  background:none;
+  border:1px solid var(--line);
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  color:var(--muted);
+  transition:all 0.15s;
+}
+.statePanelToggle:hover{background:var(--paper2);color:var(--ink)}
+.stateRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding:7px 0;
+  border-bottom:1px solid rgba(22,32,51,.05);
+}
+.stateRow:last-child{border-bottom:none}
+.stateRow .k{font-size:11px;color:var(--muted);font-weight:500}
+.stateRow .v{font-family:var(--mono);font-weight:700;font-size:13px}
+.stateBadge{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  margin-top:8px;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   LAYOUT & TYPOGRAPHY
+   ════════════════════════════════════════════════════════════════════ */
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 32px;
+}
+.wrap-narrow{
+  max-width:820px;
+  margin:0 auto;
+  padding:0 32px;
+}
+
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:24px;
+}
+.kicker:before{
+  content:"";
+  width:32px;
+  height:1px;
+  background:var(--muted);
+}
+.kicker.amber{color:var(--amberSoft)}
+.kicker.amber:before{background:var(--amberSoft)}
+.kicker.green{color:var(--greenSoft)}
+.kicker.green:before{background:var(--greenSoft)}
+.kicker.violet{color:var(--violetSoft)}
+.kicker.violet:before{background:var(--violetSoft)}
+.kicker.blue{color:var(--blueSoft)}
+.kicker.blue:before{background:var(--blueSoft)}
+
+h1{
+  font-family:var(--display);
+  font-weight:400;
+  font-variation-settings:"opsz" 144,"SOFT" 30;
+  font-size:clamp(48px,8vw,104px);
+  line-height:0.92;
+  letter-spacing:-0.04em;
+  margin-bottom:24px;
+  max-width:1000px;
+}
+h1 em{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:400;
+  color:var(--violet);
+  letter-spacing:-0.02em;
+}
+h2{
+  font-family:var(--display);
+  font-weight:400;
+  font-variation-settings:"opsz" 144,"SOFT" 50;
+  font-size:clamp(34px,5vw,58px);
+  line-height:1.04;
+  letter-spacing:-0.025em;
+  margin-bottom:18px;
+}
+h2 em{
+  font-family:var(--serif);
+  font-style:italic;
+  color:var(--ink-soft);
+}
+h3{
+  font-family:var(--sans);
+  font-size:22px;
+  font-weight:700;
+  line-height:1.25;
+  letter-spacing:-0.01em;
+  margin-bottom:10px;
+}
+h4{
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:6px;
+  letter-spacing:-0.005em;
+}
+.lead{
+  font-family:var(--display);
+  font-weight:300;
+  font-size:clamp(20px,2vw,26px);
+  line-height:1.45;
+  color:var(--ink-soft);
+  max-width:780px;
+  letter-spacing:-0.01em;
+}
+.sub{
+  font-size:17px;
+  color:var(--muted);
+  line-height:1.55;
+  max-width:680px;
+}
+
+.section{
+  padding:80px 0;
+  position:relative;
+}
+.section-tight{padding:48px 0}
+
+.sectionHeader{
+  max-width:780px;
+  margin-bottom:36px;
+}
+
+/* Bridge text between sections — Improvement #25 */
+.bridge{
+  text-align:center;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:20px;
+  color:var(--muted);
+  max-width:580px;
+  margin:48px auto;
+  line-height:1.5;
+  position:relative;
+  padding:0 40px;
+}
+.bridge::before, .bridge::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:24px;
+  height:1px;
+  background:var(--line-strong);
+}
+.bridge::before{left:0}
+.bridge::after{right:0}
+
+/* Pull quote — Improvement #14 */
+.pullquote{
+  font-family:var(--display);
+  font-weight:300;
+  font-size:clamp(28px,3.5vw,42px);
+  line-height:1.25;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  text-align:center;
+  max-width:880px;
+  margin:60px auto;
+  padding:0 40px;
+  position:relative;
+}
+.pullquote em{
+  font-family:var(--serif);
+  font-style:italic;
+  color:var(--violet);
+}
+.pullquote::before{
+  content:"";
+  display:block;
+  width:48px;
+  height:1px;
+  background:var(--ink);
+  margin:0 auto 32px;
+}
+.pullquote::after{
+  content:"";
+  display:block;
+  width:48px;
+  height:1px;
+  background:var(--ink);
+  margin:32px auto 0;
+}
+
+/* Marginalia */
+.marginalia{
+  position:relative;
+}
+.margin-note{
+  position:absolute;
+  left:calc(100% + 24px);
+  top:0;
+  width:200px;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:14px;
+  line-height:1.45;
+  color:var(--muted);
+  padding-left:14px;
+  border-left:1px solid var(--line-strong);
+}
+@media(max-width:1280px){
+  .margin-note{
+    position:static;
+    width:auto;
+    margin-top:14px;
+    padding:10px 0 10px 14px;
+    border-left:2px solid var(--line-strong);
+    background:rgba(255,253,248,0.6);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   COMPONENTS — cards, tags, pills
+   ════════════════════════════════════════════════════════════════════ */
+.card{
+  background:rgba(255,253,248,0.78);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:var(--shadow-card);
+  position:relative;
+}
+.card-prominent{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:32px;
+  box-shadow:var(--shadow);
+}
+.card-quiet{
+  background:transparent;
+  border:1px dashed var(--line-strong);
+  border-radius:16px;
+  padding:18px;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:10.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+  margin-bottom:14px;
+  white-space:nowrap;
+}
+.tag.green{background:var(--greenBg);border:1px solid var(--greenLine);color:var(--green)}
+.tag.violet{background:var(--violetBg);border:1px solid var(--violetLine);color:var(--violet)}
+.tag.amber{background:var(--amberBg);border:1px solid var(--amberLine);color:var(--amber)}
+.tag.blue{background:var(--blueBg);border:1px solid var(--blueLine);color:var(--blue)}
+.tag.rose{background:var(--roseBg);border:1px solid var(--roseLine);color:var(--rose)}
+.tag.dot::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.pill{
+  padding:9px 14px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--paper2);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.005em;
+  white-space:nowrap;
+}
+.pill.good{background:var(--greenBg);border-color:var(--greenLine);color:var(--green)}
+.pill.blue{background:var(--blueBg);border-color:var(--blueLine);color:var(--blue)}
+.pill.violet{background:var(--violetBg);border-color:var(--violetLine);color:var(--violet)}
+
+/* Term tooltip — Improvement #12 */
+.term-link{
+  border-bottom:1px dashed var(--line-strong);
+  cursor:help;
+  position:relative;
+  font-weight:600;
+}
+.term-link:hover{
+  color:var(--violet);
+  border-bottom-color:var(--violet);
+}
+.term-tooltip{
+  position:absolute;
+  bottom:calc(100% + 12px);
+  left:50%;
+  transform:translateX(-50%) translateY(8px);
+  background:var(--ink);
+  color:var(--paper);
+  padding:12px 16px;
+  border-radius:10px;
+  font-size:12.5px;
+  line-height:1.5;
+  font-weight:400;
+  width:280px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  opacity:0;
+  pointer-events:none;
+  transition:all 0.2s;
+  z-index:30;
+  font-family:var(--sans);
+}
+.term-tooltip::after{
+  content:"";
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%);
+  border:6px solid transparent;
+  border-top-color:var(--ink);
+}
+.term-link:hover .term-tooltip{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+  pointer-events:auto;
+}
+.term-tooltip strong{color:#fff;letter-spacing:0.02em}
+
+/* Reveal animations — Improvement #22 */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.in{
+  opacity:1;
+  transform:translateY(0);
+}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* Hover details — Improvement #24 */
+.detail-toggle{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+  font-size:12.5px;
+  color:var(--muted);
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:all 0.4s;
+  border-color:transparent;
+  padding-top:0;
+  margin-top:0;
+}
+.card:hover .detail-toggle, .panel:hover .detail-toggle{
+  max-height:200px;
+  opacity:1;
+  margin-top:14px;
+  padding-top:14px;
+  border-color:var(--line);
+}
+
+/* Predict checkpoint — Improvement #2 */
+.predict{
+  background:linear-gradient(135deg,rgba(112,87,217,0.08),rgba(38,116,216,0.05));
+  border:1px solid var(--violetLine);
+  border-radius:20px;
+  padding:28px 32px;
+  margin:32px 0;
+  position:relative;
+}
+.predict::before{
+  content:"";
+  position:absolute;
+  top:-1px;left:-1px;right:-1px;bottom:-1px;
+  border-radius:20px;
+  padding:1px;
+  background:linear-gradient(135deg,var(--violet),var(--blue));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+  opacity:0.3;
+}
+.predict-eyebrow{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+  color:var(--violet);
+  margin-bottom:8px;
+}
+.predict-q{
+  font-family:var(--display);
+  font-weight:400;
+  font-size:24px;
+  line-height:1.25;
+  letter-spacing:-0.015em;
+  margin-bottom:18px;
+}
+.predict-options{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.predict-btn{
+  background:var(--paper);
+  border:1.5px solid var(--line-strong);
+  border-radius:12px;
+  padding:14px 18px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.18s;
+  font-family:var(--sans);
+  color:var(--ink);
+  flex:1;
+  min-width:180px;
+  text-align:left;
+}
+.predict-btn:hover{
+  border-color:var(--violet);
+  background:var(--paper);
+  transform:translateY(-1px);
+}
+.predict-btn.correct{
+  border-color:var(--green);
+  background:var(--greenBg);
+  color:var(--greenSoft);
+}
+.predict-btn.wrong{
+  border-color:var(--rose);
+  background:var(--roseBg);
+  color:var(--rose);
+  opacity:0.75;
+}
+.predict-answer{
+  display:none;
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px dashed var(--violetLine);
+  font-size:14.5px;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+.predict-answer.show{display:block;animation:slideDown 0.4s ease}
+.predict-answer strong{color:var(--ink)}
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   GRIDS
+   ════════════════════════════════════════════════════════════════════ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-asym{display:grid;grid-template-columns:1.4fr 0.85fr;gap:32px}
+
+/* Metric */
+.metric{
+  padding:18px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+}
+.metric .k{
+  font-size:10.5px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--faint);
+  font-weight:800;
+  margin-bottom:6px;
+}
+.metric .v{
+  font-family:var(--mono);
+  font-size:21px;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+}
+.metric .n{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.4;
+}
+
+@media(max-width:980px){
+  .grid-asym, .grid-2, .grid-3, .grid-4{grid-template-columns:1fr}
+  .grid-3-mobile-2{grid-template-columns:1fr 1fr !important}
+}
+@media(max-width:600px){
+  .grid-3-mobile-2{grid-template-columns:1fr !important}
+  .nav .navlinks{display:none}
+  .nav .navInner{padding:12px 18px}
+  .wrap{padding:0 20px}
+  .statePanel{
+    right:12px;
+    bottom:12px;
+    width:calc(100% - 24px);
+    max-width:340px;
+  }
+  .pullquote{padding:0 16px;font-size:24px}
+  .margin-note{font-size:13px}
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   HERO — animated wheel (Improvement #17)
+   ════════════════════════════════════════════════════════════════════ */
+.hero{
+  padding:96px 0 64px;
+  position:relative;
+  overflow:visible;
+}
+.heroGrid{
+  display:grid;
+  grid-template-columns:1.15fr 0.85fr;
+  gap:48px;
+  align-items:center;
+}
+@media(max-width:980px){
+  .heroGrid{grid-template-columns:1fr;gap:32px}
+}
+
+.heroLeft{position:relative}
+.heroRight{
+  position:relative;
+  min-height:440px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.wheelStage{
+  position:relative;
+  width:100%;
+  max-width:480px;
+  aspect-ratio:1;
+  margin:0 auto;
+}
+
+.wheelSvg{
+  width:100%;
+  height:100%;
+  display:block;
+  filter:drop-shadow(0 24px 48px rgba(62,48,25,0.15));
+}
+
+.wheelRotor{
+  transform-origin:center;
+  animation:wheelRotate 40s linear infinite;
+}
+@keyframes wheelRotate{
+  to{transform:rotate(360deg)}
+}
+
+.wheelHub{
+  transform-origin:center;
+}
+.wheelHubText{
+  font-family:var(--display);
+  font-weight:400;
+  letter-spacing:-0.015em;
+}
+
+.wheelLabel{
+  position:absolute;
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  color:var(--ink);
+  background:var(--paper);
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);
+  white-space:nowrap;
+  font-family:var(--sans);
+}
+.wheelLabel.active{
+  background:var(--ink);
+  color:var(--paper);
+  border-color:var(--ink);
+  transform:scale(1.08);
+  transition:all 0.4s;
+}
+.wl-1{top:-8px;left:50%;transform:translateX(-50%)}
+.wl-1.active{top:-8px;left:50%;transform:translateX(-50%) scale(1.08)}
+.wl-2{top:50%;right:-12px;transform:translateY(-50%)}
+.wl-2.active{top:50%;right:-12px;transform:translateY(-50%) scale(1.08)}
+.wl-3{bottom:-8px;left:50%;transform:translateX(-50%)}
+.wl-3.active{bottom:-8px;left:50%;transform:translateX(-50%) scale(1.08)}
+.wl-4{top:50%;left:-12px;transform:translateY(-50%)}
+.wl-4.active{top:50%;left:-12px;transform:translateY(-50%) scale(1.08)}
+
+/* ════════════════════════════════════════════════════════════════════
+   INTERACTIVE STRIKE PICKER (Improvement #7, #23)
+   ════════════════════════════════════════════════════════════════════ */
+.strikePicker{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:36px;
+  box-shadow:var(--shadow);
+  margin:32px 0;
+}
+.strikePickerGrid{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:36px;
+  align-items:start;
+}
+@media(max-width:980px){.strikePickerGrid{grid-template-columns:1fr}}
+
+.spControls{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.spControl label{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:var(--faint);
+  margin-bottom:12px;
+}
+.spControl label .v{
+  font-family:var(--mono);
+  color:var(--ink);
+  font-size:14px;
+  letter-spacing:-0.01em;
+  text-transform:none;
+}
+.spSlider{
+  width:100%;
+  -webkit-appearance:none;
+  appearance:none;
+  height:6px;
+  background:linear-gradient(90deg,var(--rose),var(--amber),var(--green),var(--green),var(--green));
+  border-radius:999px;
+  outline:none;
+}
+.spSlider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:var(--ink);
+  border:3px solid var(--paper);
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,0.25);
+  transition:transform 0.15s;
+}
+.spSlider::-webkit-slider-thumb:hover{transform:scale(1.1)}
+.spSlider::-moz-range-thumb{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:var(--ink);
+  border:3px solid var(--paper);
+  cursor:pointer;
+}
+
+.spStats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:8px;
+}
+.spStat{
+  background:var(--paper2);
+  border-radius:12px;
+  padding:14px;
+}
+.spStat .k{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--faint);
+}
+.spStat .v{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:18px;
+  color:var(--ink);
+  margin-top:4px;
+}
+.spStat .n{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.spChartWrap{
+  background:var(--paper2);
+  border-radius:18px;
+  padding:14px;
+  border:1px solid var(--line);
+}
+.spChart{
+  width:100%;
+  display:block;
+}
+
+.spVerdict{
+  margin-top:20px;
+  padding:14px 18px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:500;
+  background:var(--greenBg);
+  border:1px solid var(--greenLine);
+  color:var(--greenSoft);
+  transition:all 0.3s;
+}
+.spVerdict strong{color:inherit}
+
+/* ════════════════════════════════════════════════════════════════════
+   TIMELINE — scrubbable canvas (Improvement #19)
+   ════════════════════════════════════════════════════════════════════ */
+.timeline{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:36px;
+  box-shadow:var(--shadow);
+  margin:24px 0;
+}
+.timelineHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-bottom:24px;
+}
+.timelineHeader h3{margin:0}
+.timelineDay{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--muted);
+  font-weight:600;
+  background:var(--paper2);
+  padding:6px 12px;
+  border-radius:999px;
+}
+.timelineDay strong{color:var(--ink);font-weight:700}
+
+.tlCanvas{
+  width:100%;
+  display:block;
+  border-radius:14px;
+  cursor:pointer;
+  background:var(--paper2);
+}
+
+.tlControls{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top:18px;
+  padding:16px 18px;
+  background:var(--paper2);
+  border-radius:14px;
+  border:1px solid var(--line);
+}
+.tlPlayBtn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--ink);
+  color:var(--paper);
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+  transition:all 0.18s;
+}
+.tlPlayBtn:hover{transform:scale(1.06);background:var(--violet)}
+.tlScrub{
+  flex:1;
+  -webkit-appearance:none;
+  appearance:none;
+  height:8px;
+  background:var(--line);
+  border-radius:999px;
+  outline:none;
+}
+.tlScrub::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--violet);
+  border:3px solid var(--paper);
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(112,87,217,0.4);
+}
+.tlPhase{
+  font-family:var(--mono);
+  font-size:11.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  padding:6px 12px;
+  border-radius:999px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  white-space:nowrap;
+}
+
+.tlDescription{
+  margin-top:20px;
+  padding:18px 22px;
+  background:var(--paper2);
+  border-radius:14px;
+  border:1px solid var(--line);
+  font-size:14.5px;
+  line-height:1.55;
+  color:var(--ink-soft);
+  min-height:64px;
+}
+.tlDescription strong{color:var(--ink)}
+
+.tlPnl{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+@media(max-width:760px){.tlPnl{grid-template-columns:1fr 1fr}}
+.tlPnlBox{
+  background:var(--paper2);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+}
+.tlPnlBox .k{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+  color:var(--faint);
+}
+.tlPnlBox .v{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:18px;
+  margin-top:4px;
+  color:var(--ink);
+}
+.tlPnlBox .v.pos{color:var(--green)}
+.tlPnlBox .v.neg{color:var(--rose)}
+
+/* ════════════════════════════════════════════════════════════════════
+   PRICE LADDER — animated (Improvement #18)
+   ════════════════════════════════════════════════════════════════════ */
+.ladder{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:36px;
+  box-shadow:var(--shadow);
+}
+.ladderGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+  align-items:start;
+}
+@media(max-width:980px){.ladderGrid{grid-template-columns:1fr}}
+
+.ladderViz{
+  position:relative;
+  height:480px;
+  background:linear-gradient(180deg,
+    rgba(22,152,112,0.05) 0%,
+    rgba(22,152,112,0.05) 28%,
+    rgba(183,121,24,0.07) 28%,
+    rgba(183,121,24,0.07) 52%,
+    rgba(112,87,217,0.06) 52%,
+    rgba(112,87,217,0.06) 100%);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px 24px 24px 90px;
+  overflow:hidden;
+}
+
+.ladderLevel{
+  position:absolute;
+  left:0;
+  right:0;
+  display:flex;
+  align-items:center;
+  padding:0 24px 0 14px;
+}
+.ladderLevel::after{
+  content:"";
+  flex:1;
+  height:1px;
+  margin-left:14px;
+  border-top:1.5px dashed currentColor;
+  opacity:0.4;
+}
+.ladderPrice{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:13px;
+  letter-spacing:-0.01em;
+  background:var(--paper);
+  padding:4px 10px;
+  border-radius:6px;
+  border:1px solid currentColor;
+  margin-right:14px;
+  min-width:78px;
+  text-align:center;
+}
+
+.ladderPriceLine{
+  position:absolute;
+  left:0;
+  right:0;
+  height:3px;
+  background:var(--ink);
+  border-radius:2px;
+  z-index:5;
+  transition:top 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 0 0 4px rgba(22,32,51,0.15), 0 4px 12px rgba(22,32,51,0.2);
+}
+.ladderPriceDot{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--ink);
+  border:3px solid var(--paper);
+  box-shadow:0 0 0 1px var(--ink);
+}
+.ladderPriceTag{
+  position:absolute;
+  right:36px;
+  top:50%;
+  transform:translateY(-50%);
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:13px;
+  background:var(--ink);
+  color:var(--paper);
+  padding:4px 10px;
+  border-radius:6px;
+  white-space:nowrap;
+}
+
+.ladderControls{
+  margin-top:18px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.ladderBtn{
+  padding:10px 16px;
+  border-radius:10px;
+  font-size:12.5px;
+  font-weight:600;
+  border:1px solid var(--line);
+  background:var(--paper);
+  cursor:pointer;
+  transition:all 0.15s;
+  font-family:var(--sans);
+  color:var(--ink);
+}
+.ladderBtn:hover{background:var(--paper2);border-color:var(--line-strong)}
+.ladderBtn.active{
+  background:var(--ink);
+  color:var(--paper);
+  border-color:var(--ink);
+}
+
+.ladderLegend{
+  font-size:14px;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+.ladderLegend h4{
+  font-family:var(--display);
+  font-size:22px;
+  font-weight:400;
+  margin-bottom:8px;
+  letter-spacing:-0.015em;
+}
+.ladderZone{
+  margin-bottom:18px;
+  padding-left:16px;
+  border-left:3px solid currentColor;
+}
+.ladderZone.green{color:var(--green)}
+.ladderZone.amber{color:var(--amber)}
+.ladderZone.violet{color:var(--violet)}
+.ladderZone strong{color:var(--ink);font-size:14.5px;display:block;margin-bottom:4px}
+.ladderZone p{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0}
+
+/* ════════════════════════════════════════════════════════════════════
+   SCENARIOS — kept but enhanced
+   ════════════════════════════════════════════════════════════════════ */
+.scenarios{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.sTabs{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  border-bottom:1px solid var(--line);
+}
+@media(max-width:760px){.sTabs{grid-template-columns:1fr 1fr}}
+.sTab{
+  padding:18px 16px;
+  background:var(--paper);
+  border:none;
+  border-right:1px solid var(--line);
+  cursor:pointer;
+  text-align:left;
+  position:relative;
+  transition:background 0.15s;
+  font-family:var(--sans);
+  color:var(--ink);
+}
+.sTab:last-child{border-right:none}
+.sTab::after{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:transparent;
+  transition:background 0.15s;
+}
+.sTab.active{background:var(--paper2)}
+.sTab.active.sTab-green::after{background:var(--green)}
+.sTab.active.sTab-blue::after{background:var(--blue)}
+.sTab.active.sTab-amber::after{background:var(--amber)}
+.sTab.active.sTab-violet::after{background:var(--violet)}
+.sTab.active.sTab-rose::after{background:var(--rose)}
+
+.sTabStep{
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--faint);
+  margin-bottom:6px;
+}
+.sTabTitle{
+  font-size:14.5px;
+  font-weight:700;
+  margin-bottom:4px;
+  letter-spacing:-0.005em;
+}
+.sTabVerdict{
+  font-size:11.5px;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+.sBody{
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:0;
+  min-height:380px;
+}
+@media(max-width:980px){.sBody{grid-template-columns:1fr}}
+
+.sLeft{
+  padding:32px;
+  border-right:1px solid var(--line);
+}
+@media(max-width:980px){.sLeft{border-right:none;border-bottom:1px solid var(--line)}}
+
+.sLeft h3{
+  font-family:var(--display);
+  font-size:28px;
+  font-weight:400;
+  margin-bottom:14px;
+  letter-spacing:-0.02em;
+}
+.sLeft p{font-size:15px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px}
+.sPath{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+
+.sRight{
+  padding:24px;
+  background:var(--paper2);
+  display:flex;
+  align-items:center;
+}
+.sRight svg{width:100%;height:auto;display:block}
+
+.sFoot{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);
+}
+@media(max-width:760px){.sFoot{grid-template-columns:1fr 1fr}}
+.sStat{
+  padding:16px 22px;
+  border-right:1px solid var(--line);
+}
+.sStat:last-child{border-right:none}
+@media(max-width:760px){
+  .sStat:nth-child(2n){border-right:none}
+  .sStat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+.sStat .k{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+  color:var(--faint);
+  margin-bottom:5px;
+}
+.sStat .v{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:16px;
+  color:var(--ink);
+}
+
+/* Phase reference cards (account state) — Improvement #15 visual hierarchy */
+.phaseGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+@media(max-width:980px){.phaseGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.phaseGrid{grid-template-columns:1fr}}
+
+.phaseCard{
+  padding:22px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.2s;
+}
+.phaseCard::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:currentColor;
+}
+.phaseCard:hover{transform:translateY(-3px)}
+.phaseCard.green{color:var(--green)}
+.phaseCard.blue{color:var(--blue)}
+.phaseCard.amber{color:var(--amber)}
+.phaseCard.violet{color:var(--violet)}
+.phaseCard h4{color:var(--ink);font-size:16px;margin-bottom:10px;margin-top:6px}
+.phaseCard ul{
+  margin-top:8px;
+  padding:0;
+  list-style:none;
+}
+.phaseCard li{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.55;
+  padding:5px 0 5px 18px;
+  position:relative;
+}
+.phaseCard li::before{
+  content:"";
+  position:absolute;
+  left:0;top:14px;
+  width:8px;
+  height:1px;
+  background:currentColor;
+  opacity:0.4;
+}
+
+/* Risk cards */
+.riskGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:880px){.riskGrid{grid-template-columns:1fr}}
+.risk{
+  padding:26px;
+  border-radius:20px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  position:relative;
+}
+.risk h4{
+  font-family:var(--display);
+  font-size:22px;
+  font-weight:400;
+  margin:8px 0 12px;
+  letter-spacing:-0.015em;
+  line-height:1.2;
+}
+.risk p{color:var(--ink-soft);font-size:14px;line-height:1.6}
+.risk .stat{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+}
+.risk .stat .k{font-size:11px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+.risk .stat .v{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--rose)}
+
+/* Glossary */
+.glossary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+@media(max-width:880px){.glossary{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.glossary{grid-template-columns:1fr}}
+.term{
+  padding:20px;
+  border-radius:16px;
+  background:var(--paper);
+  border:1px solid var(--line);
+}
+.term h4{font-size:14px;margin-bottom:6px}
+.term p{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0}
+.term strong{color:var(--ink)}
+
+/* Summary CTA */
+.summary{
+  padding:48px;
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(22,152,112,0.1),rgba(112,87,217,0.08),rgba(255,253,248,0.9));
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.summary h2{margin-bottom:18px}
+.summary p{font-size:18px;color:var(--ink-soft);max-width:680px;margin:0 auto 28px;line-height:1.55}
+
+/* Footer */
+.footer{
+  padding:48px 32px 32px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  border-top:1px solid var(--line);
+  margin-top:80px;
+}
+.footer a{color:var(--ink);font-weight:600}
+.footer .quote{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:18px;
+  color:var(--ink);
+  max-width:520px;
+  margin:0 auto 24px;
+  line-height:1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     NAVIGATION (Improvement #4)
+     ════════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="navInner">
+    <a class="brand" href="#top"><div class="brand-mark"></div> The Wheel · A WISE Field Guide</a>
+    <div class="navlinks" id="navlinks">
+      <a href="#foundation" data-section="foundation">Basics</a>
+      <a href="#reality" data-section="reality">Reality</a>
+      <a href="#try" data-section="try">Try It</a>
+      <a href="#cycle" data-section="cycle">Cycle</a>
+      <a href="#capital" data-section="capital">Capital</a>
+      <a href="#wise" data-section="wise">WISE</a>
+      <a href="#risks" data-section="risks">Risks</a>
+    </div>
+  </div>
+  <div class="progressBar" id="progressBar"></div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     STATE PANEL (Improvement #10)
+     ════════════════════════════════════════════════════════════════════ -->
+<aside class="statePanel" id="statePanel">
+  <div class="statePanelHead">
+    <span id="statePanelTitle">Your Position</span>
+    <button class="statePanelToggle" id="statePanelToggle" aria-label="Toggle">−</button>
+  </div>
+  <div class="statePanelBody">
+    <div class="stateRow"><span class="k">Phase</span><span class="v" id="statePhase" style="color:var(--green)">CASH</span></div>
+    <div class="stateRow"><span class="k">MES position</span><span class="v" id="statePos">—</span></div>
+    <div class="stateRow"><span class="k">Premium banked</span><span class="v" id="statePremium" style="color:var(--green)">$0</span></div>
+    <div class="stateRow"><span class="k">Mark-to-market</span><span class="v" id="stateMtm">$0</span></div>
+    <div class="stateRow"><span class="k">Net P&amp;L</span><span class="v" id="stateNet">$0</span></div>
+  </div>
+</aside>
+
+<main id="top">
+
+<!-- ════════════════════════════════════════════════════════════════════
+     HERO (Improvement #17 — animated wheel)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="heroGrid">
+      <div class="heroLeft">
+        <div class="kicker reveal">A field guide · MES futures · WISE</div>
+        <h1 class="reveal reveal-delay-1">Most cycles<br>end <em>quietly</em>.<br>Here's what really happens.</h1>
+        <p class="lead reveal reveal-delay-2">The wheel is a strategy of small, repeating wins — not heroic recoveries. About half the time, the put you sell simply expires worthless and you collect the premium. Most of the rest resolve in a few days. Only a fraction need patient management. This guide shows the actual distribution, the math behind each step, and where <strong>WISE</strong> turns the strategy into an auditable system.</p>
+        <div style="height:32px"></div>
+        <div class="reveal reveal-delay-3" style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#foundation" class="pill blue" style="padding:14px 22px;font-size:13px;font-weight:700;cursor:pointer">Start at the basics →</a>
+          <a href="#wise" class="pill" style="padding:14px 22px;font-size:13px;font-weight:600;cursor:pointer;background:rgba(22,152,112,0.1);color:var(--green);border-color:var(--greenLine)">What WISE adds</a>
+        </div>
+      </div>
+      
+      <!-- Animated wheel (Improvement #17) -->
+      <div class="heroRight">
+        <div class="wheelStage" id="wheelStage">
+          <svg class="wheelSvg" viewBox="0 0 460 460" aria-label="The Wheel">
+            <defs>
+              <linearGradient id="wRing" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#169870"/>
+                <stop offset="33%" stop-color="#2674d8"/>
+                <stop offset="66%" stop-color="#b77918"/>
+                <stop offset="100%" stop-color="#7057d9"/>
+              </linearGradient>
+              <radialGradient id="wHub" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="#fffdf8"/>
+                <stop offset="100%" stop-color="#fbf6ee"/>
+              </radialGradient>
+              <filter id="wGlow">
+                <feGaussianBlur stdDeviation="3" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            
+            <!-- outer rotating ring with phases -->
+            <g class="wheelRotor">
+              <circle cx="230" cy="230" r="170" fill="none" stroke="url(#wRing)" stroke-width="34"
+                stroke-linecap="round" stroke-dasharray="200 60 200 60 200 60 200 60"/>
+            </g>
+            
+            <!-- static hub -->
+            <circle cx="230" cy="230" r="118" fill="url(#wHub)" stroke="rgba(22,32,51,0.1)" stroke-width="1"/>
+            <circle cx="230" cy="230" r="110" fill="none" stroke="rgba(22,32,51,0.05)" stroke-width="1"/>
+            
+            <!-- hub text -->
+            <text class="wheelHubText" x="230" y="218" text-anchor="middle" font-size="36" fill="#162033">The</text>
+            <text class="wheelHubText" x="230" y="252" text-anchor="middle" font-size="36" fill="#162033" font-style="italic">Wheel</text>
+            <text x="230" y="280" text-anchor="middle" font-size="11" fill="#58647a" font-weight="600" letter-spacing="2" font-family="JetBrains Mono">INCOME · CYCLE</text>
+            
+            <!-- phase dots on ring (4 positions) -->
+            <g>
+              <circle id="dotN" cx="230" cy="60" r="9" fill="#169870" stroke="#fffdf8" stroke-width="3" filter="url(#wGlow)"/>
+              <circle id="dotE" cx="400" cy="230" r="9" fill="#2674d8" stroke="#fffdf8" stroke-width="3" filter="url(#wGlow)"/>
+              <circle id="dotS" cx="230" cy="400" r="9" fill="#b77918" stroke="#fffdf8" stroke-width="3" filter="url(#wGlow)"/>
+              <circle id="dotW" cx="60" cy="230" r="9" fill="#7057d9" stroke="#fffdf8" stroke-width="3" filter="url(#wGlow)"/>
+            </g>
+          </svg>
+          
+          <div class="wheelLabel wl-1" id="wlSell">Sell put</div>
+          <div class="wheelLabel wl-2" id="wlAssign">If assigned</div>
+          <div class="wheelLabel wl-3" id="wlRecover">Hold &amp; recover</div>
+          <div class="wheelLabel wl-4" id="wlCall">Sell calls · exit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge reveal">If you've never traded options before, the wheel works like an insurance contract. Start here.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     FOUNDATION — Insurance Analogy (NEW · addresses Critique #2)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="foundation">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker blue">Foundation · the insurance analogy</div>
+      <h2>Selling a put is like <em>selling insurance</em>.</h2>
+      <p class="sub">Forget the trading jargon for a moment. The wheel rests on a single concept that everyone already understands: insurance. Once that clicks, every other piece of vocabulary — strike, premium, assignment — falls into place.</p>
+    </div>
+
+    <div class="grid-2 reveal" style="gap:32px">
+      <div class="card-prominent" style="background:linear-gradient(135deg,rgba(38,116,216,0.04),var(--paper))">
+        <span class="tag blue dot">The setup</span>
+        <h3>Imagine someone owns shares and is worried.</h3>
+        <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin-bottom:20px">A trader holds a position in the S&amp;P 500 index. They're worried about a sudden drop. They'd like protection — a guarantee that if the market falls below a certain level, they can sell their position to <em>someone</em> at that level, no matter how far things have fallen.</p>
+        <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin:0">They're willing to pay for that protection. Like buying insurance on a car. The premium is small relative to what they're protecting.</p>
+      </div>
+
+      <div class="card-prominent" style="background:linear-gradient(135deg,rgba(22,152,112,0.05),var(--paper))">
+        <span class="tag green dot">Your role</span>
+        <h3>You agree to be the insurer.</h3>
+        <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin-bottom:20px">You agree: <em>"If the market falls below 7,180 by next week, I'll buy your position at 7,180 — no matter where the market actually is."</em></p>
+        <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin:0">In return, they pay you a <strong>premium</strong> upfront — say, $200. That money is yours immediately. The promise is what you've sold; the premium is what you've collected for selling it.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:32px">
+      <div class="card" style="background:rgba(255,253,248,0.92);padding:28px 32px">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700;letter-spacing:0.08em;margin-bottom:12px;text-transform:uppercase">The vocabulary</div>
+        <div class="grid-4 grid-3-mobile-2" style="gap:18px">
+          <div>
+            <h4 style="color:var(--blue);font-size:14px">The strike</h4>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.55">The threshold price. In insurance terms: <em>the floor below which the policy pays out</em>. In our example: <strong>7,180</strong>.</p>
+          </div>
+          <div>
+            <h4 style="color:var(--green);font-size:14px">The premium</h4>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.55">What they pay you to take on the obligation. <strong>Yours immediately, regardless of what happens next</strong>.</p>
+          </div>
+          <div>
+            <h4 style="color:var(--amber);font-size:14px">The contract</h4>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.55">The MES futures contract — what you'll have to buy if the market falls below the strike. Each MES point = $5.</p>
+          </div>
+          <div>
+            <h4 style="color:var(--violet);font-size:14px">Expiration</h4>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.55">When the policy ends. If the market hasn't fallen below the strike by then, the obligation simply expires.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:32px">
+      <div class="card-prominent" style="border-color:var(--greenLine);background:linear-gradient(135deg,rgba(22,152,112,0.06),var(--paper))">
+        <span class="tag green dot">Two outcomes — that's it</span>
+        <h3 style="font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:-0.02em;line-height:1.2">Either the policy is never used, or it gets called in.</h3>
+        <div class="grid-2" style="margin-top:20px;gap:18px">
+          <div style="padding:20px;background:var(--paper2);border-radius:14px;border-left:3px solid var(--green)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700;letter-spacing:0.07em;margin-bottom:6px;text-transform:uppercase">Outcome A · the common one</div>
+            <p style="font-size:14.5px;color:var(--ink-soft);margin:0;line-height:1.6">The market stays above 7,180. The policy expires unused. <strong>You keep the $200</strong>. Then you write another policy. This is the wheel's bread and butter — pure income, no position to manage.</p>
+          </div>
+          <div style="padding:20px;background:var(--paper2);border-radius:14px;border-left:3px solid var(--blue)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--blue);font-weight:700;letter-spacing:0.07em;margin-bottom:6px;text-transform:uppercase">Outcome B · the assigned one</div>
+            <p style="font-size:14.5px;color:var(--ink-soft);margin:0;line-height:1.6">The market falls below 7,180. The policy is called in. <strong>You buy the contract at 7,180</strong> — even though it's worth less now. You still have the $200 premium. Now you own the position and the strategy shifts to selling it back at a profit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">So how often does each outcome actually happen? Here's the honest breakdown.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     REALITY — Frequency Distribution (NEW · addresses Critique #1)
+     Shows that recovery is the exception, not the main path
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="reality">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker green">Reality · 36 years of data</div>
+      <h2>Of every 100 cycles, here's <em>where they actually end</em>.</h2>
+      <p class="sub">Most explainers showcase the recovery story because it's dramatic. The truth is mundane: about half the time, nothing happens at all. Real distribution from 36 years of S&amp;P 500 history (1990–2026, non-crash periods).</p>
+    </div>
+
+    <div class="reveal">
+      <div class="card-prominent" style="padding:0;overflow:hidden">
+        <!-- Frequency bar visualization -->
+        <div style="padding:32px 36px 16px">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700;letter-spacing:0.08em;margin-bottom:20px;text-transform:uppercase">Approximately 100 typical cycles · 1-day puts at-the-money</div>
+          <div style="display:flex;height:64px;border-radius:10px;overflow:hidden;border:1px solid var(--line)">
+            <div style="flex:52;background:linear-gradient(180deg,#1aa884,#169870);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;font-family:var(--mono);letter-spacing:-0.01em">52</div>
+            <div style="flex:35;background:linear-gradient(180deg,#3b85e0,#2674d8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;font-family:var(--mono)">35</div>
+            <div style="flex:10;background:linear-gradient(180deg,#c98b30,#b77918);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;font-family:var(--mono)">10</div>
+            <div style="flex:3;background:linear-gradient(180deg,#8568dd,#7057d9);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;font-family:var(--mono)">3</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;font-family:var(--mono);color:var(--faint);margin-top:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase">
+            <span>Put expires</span><span style="margin-left:auto;margin-right:18%">Quick recovery</span><span style="margin-right:5%">Patient</span><span>Deep</span>
+          </div>
+        </div>
+
+        <!-- Detailed breakdown -->
+        <div class="grid-4" style="grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);gap:0">
+          <div style="padding:24px;border-right:1px solid var(--line);background:rgba(22,152,112,0.04)">
+            <div style="font-family:var(--display);font-weight:400;font-size:48px;line-height:1;color:var(--green);letter-spacing:-0.04em;margin-bottom:6px">52<span style="font-size:24px;color:var(--muted)">%</span></div>
+            <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px">Put expires worthless</div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">No assignment. No position to manage. Collect premium, sell another. <strong>The wheel's default outcome.</strong></p>
+          </div>
+          <div style="padding:24px;border-right:1px solid var(--line);background:rgba(38,116,216,0.04)">
+            <div style="font-family:var(--display);font-weight:400;font-size:48px;line-height:1;color:var(--blue);letter-spacing:-0.04em;margin-bottom:6px">35<span style="font-size:24px;color:var(--muted)">%</span></div>
+            <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px">Assigned · resolved in 1–5 days</div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">Take the contract, sell a covered call almost immediately. Premium accumulates on both legs. Quiet, profitable cycles.</p>
+          </div>
+          <div style="padding:24px;border-right:1px solid var(--line);background:rgba(183,121,24,0.05)">
+            <div style="font-family:var(--display);font-weight:400;font-size:48px;line-height:1;color:var(--amber);letter-spacing:-0.04em;margin-bottom:6px">10<span style="font-size:24px;color:var(--muted)">%</span></div>
+            <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px">Assigned · 5–12 days</div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">Patient covered call work. Multiple call premiums collected. Recovery is gradual but the income stream offsets time.</p>
+          </div>
+          <div style="padding:24px;background:rgba(112,87,217,0.04)">
+            <div style="font-family:var(--display);font-weight:400;font-size:48px;line-height:1;color:var(--violet);letter-spacing:-0.04em;margin-bottom:6px">3<span style="font-size:24px;color:var(--muted)">%</span></div>
+            <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px">Deep recovery · 12+ days</div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0">The exception, not the rule. WISE risk gates exist precisely to limit how often you enter these.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal" style="margin-top:32px;gap:24px">
+      <div>
+        <p class="margin-note" style="position:static;border:none;background:none;padding:0">
+          <em>Why this matters: a strategy that pays you for boredom is fundamentally different from one that pays you for drama. The wheel is the boring one.</em>
+        </p>
+      </div>
+      <div class="card-quiet" style="background:var(--paper)">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700;letter-spacing:0.07em;margin-bottom:10px;text-transform:uppercase">The honest framing</div>
+        <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;margin:0">In <strong>87% of cycles</strong>, you're either collecting a clean premium or working through a quick assignment-to-call sequence in under a week. The dramatic recovery scenarios most strategy guides focus on represent <strong>roughly 1 in 33 trades</strong>. The wheel earns its income from frequency, not from heroism.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">Now that you know what actually happens, let's let you <em>play with it</em>.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     INTERACTIVE STRIKE PICKER (Improvements #3, #7, #23, #16)
+     This is moved up to be the spine of the explanation.
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="try">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker violet">Try it · interactive</div>
+      <h2>Now drag the strike. Watch <em>everything change</em>.</h2>
+      <p class="sub">You now know what these terms mean. Move the slider — see how the strike (the insurance threshold) trades off against the premium (what they pay you) and the chance of being called in. There's no free lunch in option premium.</p>
+    </div>
+
+    <div class="strikePicker reveal">
+      <div class="strikePickerGrid">
+        <!-- LEFT: controls -->
+        <div class="spControls">
+          <div class="spControl">
+            <label>
+              <span>Put strike</span>
+              <span class="v" id="spStrikeV">7,180</span>
+            </label>
+            <input type="range" class="spSlider" id="spStrike" min="7050" max="7250" step="5" value="7180">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint);font-family:var(--mono);margin-top:6px">
+              <span>Deep OTM</span><span style="color:var(--ink)">Current MES 7,200</span><span>Deep ITM</span>
+            </div>
+          </div>
+
+          <div class="spControl">
+            <label>
+              <span>Days to expiry</span>
+              <span class="v" id="spDteV">3 DTE</span>
+            </label>
+            <input type="range" class="spSlider" id="spDte" min="1" max="7" step="1" value="3" 
+              style="background:linear-gradient(90deg,var(--green),var(--blue),var(--violet))">
+          </div>
+
+          <div class="spStats">
+            <div class="spStat">
+              <div class="k">Premium collected</div>
+              <div class="v" id="spPrem">$200</div>
+              <div class="n" id="spPremPts">40 pts × $5</div>
+            </div>
+            <div class="spStat">
+              <div class="k">Assignment chance</div>
+              <div class="v" id="spProb">~28%</div>
+              <div class="n">If MES &lt; strike at expiry</div>
+            </div>
+            <div class="spStat">
+              <div class="k">Annualised yield</div>
+              <div class="v" id="spYield">~27%</div>
+              <div class="n">Premium ÷ capital × 365/DTE</div>
+            </div>
+            <div class="spStat">
+              <div class="k">Capital required</div>
+              <div class="v" id="spCap">$14,400</div>
+              <div class="n">40% of notional</div>
+            </div>
+          </div>
+
+          <div class="spVerdict" id="spVerdict">
+            <strong>Balanced choice.</strong> Slightly out of the money keeps assignment frequency moderate while collecting meaningful premium.
+          </div>
+        </div>
+
+        <!-- RIGHT: visualization -->
+        <div class="spChartWrap">
+          <svg class="spChart" id="spChart" viewBox="0 0 480 380" aria-label="Strike vs price distribution"></svg>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="text-align:center;font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:24px;font-size:15px">
+      Notice how the premium grows as the strike rises toward the market. <br>
+      and how the chance of assignment climbs in lockstep. There is no free lunch in option premium.
+    </p>
+  </div>
+</section>
+
+<div class="bridge">So what actually happens after you sell the put? Two things. Only ever two.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     STORY — The two paths (Improvement #6 progressive disclosure)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="story">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker green">Story · part one</div>
+      <h2>Path A: the <em>simplest</em> outcome.</h2>
+      <p class="sub">In the world where the market behaves, the wheel is almost embarrassingly simple. You sell a put, the put expires worthless, and you keep the premium. Then you do it again. And again.</p>
+    </div>
+
+    <div class="grid-asym reveal">
+      <div class="card-prominent">
+        <span class="tag green dot">Path A · Happy</span>
+        <h3>MES finishes above 7,180 at expiry</h3>
+        <p style="color:var(--ink-soft);margin-bottom:18px;font-size:15px;line-height:1.65">The put you sold expires out of the money. No MES contract changes hands. You collect the <strong>$200</strong> premium and return to cash, ready to sell another put on the next cycle.</p>
+        
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+          <span class="pill good">Sell put @ 7,180</span>
+          <span class="pill">→</span>
+          <span class="pill good">MES &gt; 7,180</span>
+          <span class="pill">→</span>
+          <span class="pill good">Put expires</span>
+          <span class="pill">→</span>
+          <span class="pill good">Keep $200</span>
+        </div>
+
+        <div class="grid-3" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
+          <div class="metric"><div class="k">Premium kept</div><div class="v" style="color:var(--green)">$200</div></div>
+          <div class="metric"><div class="k">Position</div><div class="v">None</div></div>
+          <div class="metric"><div class="k">Time spent</div><div class="v">3 days</div></div>
+        </div>
+      </div>
+
+      <div>
+        <p class="margin-note" style="position:static;border:none;background:none;padding:0;margin-bottom:24px">
+          <em>Roughly 50% of all cycles end exactly here. The wheel's engine is built on this outcome being the most common one.</em>
+        </p>
+        <div class="card-quiet" style="background:var(--paper)">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:10px">Why does this work?</div>
+          <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;margin:0">Because most days, the market does not move enough to breach a slightly out-of-the-money strike. The premium you collect is the market's payment for taking that small probability of assignment off their hands. Over hundreds of cycles, the math compounds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">But not every day behaves. So what happens on the days that don't?</div>
+
+<!-- Predict checkpoint #1 -->
+<section class="section section-tight">
+  <div class="wrap-narrow">
+    <div class="predict reveal">
+      <div class="predict-eyebrow">Pause · what do you think?</div>
+      <div class="predict-q">If MES closes <em>below</em> 7,180 at expiry — what happens to the trader?</div>
+      <div class="predict-options" id="predict1">
+        <button class="predict-btn" data-correct="false">They lose the premium</button>
+        <button class="predict-btn" data-correct="true">They buy MES at 7,180 and keep the premium</button>
+        <button class="predict-btn" data-correct="false">The trade is voided</button>
+      </div>
+      <div class="predict-answer" id="predict1Answer">
+        <strong>That's right.</strong> The premium is yours regardless — that money was paid upfront when the put was sold and it never goes back. What changes is that you now own the contract: the buyer of the put exercises their right to <em>sell</em> MES to you at 7,180. You become a holder of one MES contract at a price you agreed to in advance.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     STORY — Path B
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker blue">Story · part two</div>
+      <h2>Path B: assignment. The wheel <em>turns</em>.</h2>
+      <p class="sub">When the market closes below your strike, the put is exercised. You take delivery of one MES contract at 7,180. This is not failure — this is the wheel doing what it was designed to do. Now the strategy shifts from collecting put premium to managing a real position.</p>
+    </div>
+
+    <div class="grid-asym reveal">
+      <div class="card-prominent" style="border-color:var(--blueLine);background:linear-gradient(180deg,rgba(38,116,216,0.04),var(--paper))">
+        <span class="tag blue dot">Path B · Assignment</span>
+        <h3>MES finishes below 7,180 at expiry</h3>
+        <p style="color:var(--ink-soft);margin-bottom:18px;font-size:15px;line-height:1.65">The put is in the money. Assignment happens automatically. You now hold <strong>one MES contract at 7,180</strong>. The premium of <strong>$200</strong> is still yours, sitting in your account.</p>
+        
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+          <span class="pill blue">Sell put @ 7,180</span>
+          <span class="pill">→</span>
+          <span class="pill blue">MES &lt; 7,180</span>
+          <span class="pill">→</span>
+          <span class="pill blue">Assigned</span>
+          <span class="pill">→</span>
+          <span class="pill blue">Hold 1 MES</span>
+        </div>
+
+        <div class="grid-3" style="grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
+          <div class="metric"><div class="k">Premium kept</div><div class="v" style="color:var(--green)">$200</div></div>
+          <div class="metric"><div class="k">Position now</div><div class="v" style="color:var(--blue)">1 MES @ 7,180</div></div>
+          <div class="metric"><div class="k">Effective cost</div><div class="v">7,140</div></div>
+        </div>
+        
+        <div class="detail-toggle">
+          <strong style="color:var(--ink)">Effective cost basis:</strong> 7,180 strike − 40 pts premium = 7,140. As long as you eventually exit at or above 7,140, the cycle is profitable. The premium effectively reduces what you "paid" for the position.
+        </div>
+      </div>
+
+      <div>
+        <p class="margin-note" style="position:static;border:none;background:none;padding:0;margin-bottom:24px">
+          <em>Assignment is part of the income mechanism — not a bug. The wheel converts assignments into the next phase of the strategy.</em>
+        </p>
+        <div class="card-quiet" style="background:var(--paper)">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:10px">What now?</div>
+          <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;margin:0">You hold the MES contract. You wait for price to recover to a level where covered calls make sense. Then you sell calls and collect more premium until the contract is eventually called away — and capital returns to cash.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">The assignment matters less than what you do <em>after</em>. Here's the full cycle, shown as one continuous arc.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     SCRUBBABLE TIMELINE (Improvements #19, #21, #20)
+     One continuous canvas showing the entire cycle with P&L
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="cycle">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker amber">Cycle · scrub through it</div>
+      <h2>An assigned cycle, end to end. <em>Drag time</em>.</h2>
+      <p class="sub">Most cycles end with the put expiring quietly — that's the 52% case. This timeline shows the more interesting <strong>assigned</strong> path: the put gets exercised, the position recovers, the covered call closes the cycle. Drag the slider to scrub through it. Watch the price move, the P&amp;L develop, and the account state evolve. Most cycles you trade will be shorter and quieter than this one.</p>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timelineHeader">
+        <h3 id="tlPhaseTitle">The cycle begins</h3>
+        <span class="timelineDay">Day <strong id="tlDay">0</strong> of 24</span>
+      </div>
+      
+      <canvas class="tlCanvas" id="tlCanvas" width="1080" height="380"></canvas>
+
+      <div class="tlControls">
+        <button class="tlPlayBtn" id="tlPlay" aria-label="Play">▶</button>
+        <input type="range" class="tlScrub" id="tlScrub" min="0" max="240" step="1" value="0">
+        <span class="tlPhase" id="tlPhase" style="color:var(--green)">PRE-TRADE</span>
+      </div>
+
+      <div class="tlDescription" id="tlDesc">
+        <strong>Day 0.</strong> Before any trade is placed. MES is trading at 7,200. The trader is in cash, watching for an attractive setup. WISE is signalling that conditions are right to sell a put a few points below the market.
+      </div>
+
+      <div class="tlPnl">
+        <div class="tlPnlBox"><div class="k">Premium</div><div class="v" id="tlPrem">$0</div></div>
+        <div class="tlPnlBox"><div class="k">Mark-to-market</div><div class="v" id="tlMtm">$0</div></div>
+        <div class="tlPnlBox"><div class="k">Net P&amp;L</div><div class="v" id="tlNet">$0</div></div>
+        <div class="tlPnlBox"><div class="k">Capital state</div><div class="v" id="tlCap" style="font-size:13px">CASH</div></div>
+      </div>
+    </div>
+
+    <p class="reveal" style="text-align:center;font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:20px;font-size:15px">
+      The colored band underneath the price shows what phase the cycle is in.<br>
+      The line in the lower panel is your running P&amp;L — the actual money in your account, moment by moment.
+    </p>
+  </div>
+</section>
+
+<div class="bridge">Now zoom in on the part most people get wrong: the <em>recovery phase</em>. The wait.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     LADDER (Improvement #18 — animated price ladder)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="ladder">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker amber">Recovery zones</div>
+      <h2>Three price zones. <em>Watch the line move</em>.</h2>
+      <p class="sub">After assignment, the position lives in one of three zones — each one telling you what the wheel will do next. Click the buttons to watch the price line travel between them.</p>
+    </div>
+
+    <div class="ladder reveal">
+      <div class="ladderGrid">
+        <!-- Animated ladder visualization -->
+        <div>
+          <div class="ladderViz" id="ladderViz">
+            <!-- Levels rendered by JS -->
+          </div>
+          <div class="ladderControls">
+            <button class="ladderBtn active" data-price="7080">Crash to 7,080</button>
+            <button class="ladderBtn" data-price="7115">Recovery start 7,115</button>
+            <button class="ladderBtn" data-price="7160">Call window 7,160</button>
+            <button class="ladderBtn" data-price="7195">Above strike 7,195</button>
+          </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="ladderLegend">
+          <h4>How to read the ladder</h4>
+          <p style="color:var(--muted);margin-bottom:24px">The horizontal bands are the three zones the price can be in after assignment. The dark line is where MES is right now.</p>
+          
+          <div class="ladderZone violet">
+            <strong>Above 7,180 — clean exit zone</strong>
+            <p>Price has fully recovered above the assignment level. Covered calls make sense. The next call assignment closes the cycle profitably.</p>
+          </div>
+          <div class="ladderZone amber">
+            <strong>7,108 to 7,180 — call window zone</strong>
+            <p>Price has recovered enough that selling covered calls becomes meaningful. Premium is collectible, exits are realistic.</p>
+          </div>
+          <div class="ladderZone amber" style="opacity:0.85">
+            <strong>Below 7,108 — recovery wait</strong>
+            <p>Price is too far below the assignment to sell calls efficiently. The strategy waits — collecting nothing — until price returns to the call window.</p>
+          </div>
+          
+          <p style="margin-top:24px;padding-top:18px;border-top:1px dashed var(--line);font-size:13px;color:var(--muted);font-style:italic">
+            The 7,108 readiness level is 99% of the assignment strike — empirically the point where covered call premium becomes worth the position cap.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Predict checkpoint #2 -->
+<section class="section section-tight">
+  <div class="wrap-narrow">
+    <div class="predict reveal">
+      <div class="predict-eyebrow">Pause · think about it</div>
+      <div class="predict-q">When the wheel sells a covered call, what's it actually <em>hoping for</em>?</div>
+      <div class="predict-options" id="predict2">
+        <button class="predict-btn" data-correct="false">For the call to expire worthless so it can sell another</button>
+        <button class="predict-btn" data-correct="true">For the call to be exercised so the position closes cleanly</button>
+        <button class="predict-btn" data-correct="false">For the price to stay flat forever</button>
+      </div>
+      <div class="predict-answer" id="predict2Answer">
+        <strong>Right — exercise is the goal.</strong> The wheel doesn't sell covered calls just to collect premium. It sells them as the exit mechanism for the assigned position. When the call is exercised, the MES contract is sold at the strike, the cycle closes, capital returns to cash, and the wheel is ready to sell a fresh put. Repeated covered calls without exercise just mean the position keeps lingering — useful for income but not for closing the loop.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     SCENARIOS — kept from original but refined (Improvement #3)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="scenarios">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker">Five outcomes</div>
+      <h2>Every cycle ends one of <em>five ways</em>.</h2>
+      <p class="sub">No matter what the market does, the cycle resolves through one of these five paths. Click through them to see the chart, the account state, and what the wheel does next.</p>
+    </div>
+
+    <div class="scenarios reveal">
+      <div class="sTabs">
+        <button class="sTab sTab-green active" data-key="expire">
+          <div class="sTabStep">Path 1</div>
+          <div class="sTabTitle">Put expires</div>
+          <div class="sTabVerdict">Strike held · premium kept</div>
+        </button>
+        <button class="sTab sTab-blue" data-key="assigned">
+          <div class="sTabStep">Path 2</div>
+          <div class="sTabTitle">Put assigned</div>
+          <div class="sTabVerdict">Holding 1 MES at 7,180</div>
+        </button>
+        <button class="sTab sTab-amber" data-key="recovery">
+          <div class="sTabStep">Path 3</div>
+          <div class="sTabTitle">Recovery wait</div>
+          <div class="sTabVerdict">Price still below readiness</div>
+        </button>
+        <button class="sTab sTab-violet" data-key="callwin">
+          <div class="sTabStep">Path 4</div>
+          <div class="sTabTitle">Call window opens</div>
+          <div class="sTabVerdict">Covered call sold</div>
+        </button>
+        <button class="sTab sTab-rose" data-key="finish">
+          <div class="sTabStep">Path 5</div>
+          <div class="sTabTitle">Called away</div>
+          <div class="sTabVerdict">Cycle complete · cash</div>
+        </button>
+      </div>
+      
+      <div class="sBody">
+        <div class="sLeft">
+          <h3 id="sceneTitle">Put expires worthless</h3>
+          <div class="sPath" id="scenePath"></div>
+          <p id="sceneBody"></p>
+        </div>
+        <div class="sRight" id="sceneViz"></div>
+      </div>
+      
+      <div class="sFoot">
+        <div class="sStat"><div class="k">MES position</div><div class="v" id="sceneStat1">None</div></div>
+        <div class="sStat"><div class="k">Premium banked</div><div class="v" id="sceneStat2">$200</div></div>
+        <div class="sStat"><div class="k">Net P&amp;L</div><div class="v" id="sceneStat3" style="color:var(--green)">+$200</div></div>
+        <div class="sStat"><div class="k">Next action</div><div class="v" id="sceneStat4" style="font-size:13px">Sell new put</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">Most confusion about the wheel comes from losing track of <em>what's actually in the account</em>. Here is each phase.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PHASE STATE CARDS (Improvement #15 hierarchy)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker">Account state · phase by phase</div>
+      <h2>What's <em>actually held</em> at each point.</h2>
+      <p class="sub">Not the rules. Not the strategy logic. Just: at this exact moment, what's in the account?</p>
+    </div>
+
+    <div class="phaseGrid reveal">
+      <div class="phaseCard green">
+        <span class="tag green dot">Cash</span>
+        <h4>Before the put is sold</h4>
+        <ul>
+          <li>No MES contract held</li>
+          <li>No option position open</li>
+          <li>Capital waiting in cash</li>
+          <li>Ready for next setup</li>
+        </ul>
+      </div>
+      <div class="phaseCard blue">
+        <span class="tag blue dot">Short put</span>
+        <h4>After the put is sold</h4>
+        <ul>
+          <li>Premium collected upfront</li>
+          <li>Obligation to take MES at strike if assigned</li>
+          <li>Capital reserved as margin</li>
+          <li>Waiting for expiry</li>
+        </ul>
+      </div>
+      <div class="phaseCard amber">
+        <span class="tag amber dot">Assigned</span>
+        <h4>After assignment</h4>
+        <ul>
+          <li>Hold 1 MES contract at strike</li>
+          <li>P&amp;L moves with the market</li>
+          <li>Premium still in account</li>
+          <li>Waiting for call window</li>
+        </ul>
+      </div>
+      <div class="phaseCard violet">
+        <span class="tag violet dot">Covered call</span>
+        <h4>Once price recovers enough</h4>
+        <ul>
+          <li>Still hold the MES contract</li>
+          <li>Plus 1 covered call open</li>
+          <li>New premium collected</li>
+          <li>Either exit clean or sell another call</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">A short break for the most important sentence in the whole document.</div>
+
+<section class="section section-tight">
+  <p class="pullquote reveal">
+    The wheel doesn't beat the market by being right about <em>direction</em> — it beats the market by being patient about <em>premium</em>.
+  </p>
+</section>
+
+<div class="bridge">Patience requires capital. So how much do you actually need? Here's the empirical answer.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     CAPITAL SIZING (NEW · addresses Critique #3)
+     Why 40% notional — the empirical justification
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="capital">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker blue">Capital sizing · why 40%</div>
+      <h2>Capital decides whether you survive <em>the worst day</em>.</h2>
+      <p class="sub">The wheel only fails permanently if you're forced out of a position before recovery. The amount of capital you reserve per contract decides whether that ever happens. The 40% recommendation isn't arbitrary — it comes from 36 years of S&amp;P 500 history.</p>
+    </div>
+
+    <!-- What is notional -->
+    <div class="reveal" style="margin-bottom:32px">
+      <div class="card-prominent" style="background:linear-gradient(135deg,rgba(38,116,216,0.05),var(--paper))">
+        <span class="tag blue dot">Step 1 · What "notional" means</span>
+        <h3>The full size of the position you'd own if assigned.</h3>
+        <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin-bottom:16px">If you sell a put at strike 7,180 on MES (Micro E-mini S&amp;P 500), and you get assigned, you take on a futures position worth <strong>7,180 × $5 = $35,900</strong>. That figure is the <em>notional</em> — the full market value of what you'd be holding.</p>
+        <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin:0">You don't need to put up that much to trade — futures use leverage. But during recovery, the position's mark-to-market loss is calculated against this full notional. The capital you reserve has to absorb whatever drawdown the worst few days might produce.</p>
+      </div>
+    </div>
+
+    <!-- The 40% explanation -->
+    <div class="reveal">
+      <h3 style="font-family:var(--display);font-weight:400;font-size:32px;letter-spacing:-0.025em;line-height:1.15;margin-bottom:24px">What different capital levels survive — <em>or don't</em>.</h3>
+      <div style="background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-soft)">
+        <table style="width:100%;border-collapse:collapse;font-size:14px">
+          <thead style="background:var(--paper2)">
+            <tr style="border-bottom:1px solid var(--line)">
+              <th style="text-align:left;padding:16px 22px;font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:var(--faint)">Capital reserved</th>
+              <th style="text-align:left;padding:16px 22px;font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:var(--faint)">Survives</th>
+              <th style="text-align:left;padding:16px 22px;font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:var(--faint)">In practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--line);background:rgba(232,75,75,0.04)">
+              <td style="padding:18px 22px"><strong style="font-family:var(--mono);color:var(--rose);font-size:16px">10% notional</strong><br><span style="color:var(--muted);font-size:12.5px">≈ $3,600 per contract</span></td>
+              <td style="padding:18px 22px;color:var(--rose);font-weight:700">Normal volatility days only</td>
+              <td style="padding:18px 22px;color:var(--ink-soft);line-height:1.5">Forced out by margin call on routine 1.5% moves. <strong style="color:var(--rose)">Strategy fails frequently.</strong></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--line)">
+              <td style="padding:18px 22px"><strong style="font-family:var(--mono);color:var(--amber);font-size:16px">25% notional</strong><br><span style="color:var(--muted);font-size:12.5px">≈ $9,000 per contract</span></td>
+              <td style="padding:18px 22px;color:var(--amber);font-weight:700">~80% of historical days</td>
+              <td style="padding:18px 22px;color:var(--ink-soft);line-height:1.5">Survives normal stress, fails on the worst 20%. Forced exit during meaningful drawdowns. <strong>Insufficient.</strong></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--line);background:rgba(22,152,112,0.05)">
+              <td style="padding:18px 22px"><strong style="font-family:var(--mono);color:var(--green);font-size:16px">40% notional</strong><br><span style="color:var(--muted);font-size:12.5px">≈ $14,360 per contract</span></td>
+              <td style="padding:18px 22px;color:var(--green);font-weight:700">All non-crash days · 36 years</td>
+              <td style="padding:18px 22px;color:var(--ink-soft);line-height:1.5"><strong style="color:var(--green)">The recommended floor.</strong> Survives every non-crash drawdown observed since 1990 — including 2018, 2015, 2011 stress events.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--line)">
+              <td style="padding:18px 22px"><strong style="font-family:var(--mono);color:var(--violet);font-size:16px">60% notional</strong><br><span style="color:var(--muted);font-size:12.5px">≈ $21,540 per contract</span></td>
+              <td style="padding:18px 22px;color:var(--violet);font-weight:700">All non-crash + most crash days</td>
+              <td style="padding:18px 22px;color:var(--ink-soft);line-height:1.5">Conservative. Survives most crash periods. Slightly lower capital efficiency but adds a buffer.</td>
+            </tr>
+            <tr>
+              <td style="padding:18px 22px"><strong style="font-family:var(--mono);color:var(--ink);font-size:16px">100% notional</strong><br><span style="color:var(--muted);font-size:12.5px">≈ $35,900 per contract</span></td>
+              <td style="padding:18px 22px;color:var(--ink);font-weight:700">Everything · cash-secured</td>
+              <td style="padding:18px 22px;color:var(--ink-soft);line-height:1.5">Maximum safety — equivalent to "cash-secured" trading. Cannot be forced out. Lower yield-on-capital but zero margin risk.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:28px">
+      <div class="card" style="background:rgba(255,253,248,0.92);padding:24px 28px;border-left:3px solid var(--green)">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700;letter-spacing:0.07em;margin-bottom:8px;text-transform:uppercase">Why 40% specifically</div>
+        <p style="font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin:0">The worst single non-crash drawdown observed in S&amp;P 500 daily data from 1990 through 2026 was <strong>−18.4%</strong> from a recent high. A 40% capital reserve absorbs that move plus a margin buffer, ensuring the position is never force-closed during normal market stress. During genuine crash periods (2000–2002, 2008, 2020, 2022), <strong>WISE blocks new entries entirely via its VIX hard stop and event gates</strong> — so the 40% reserve is calibrated to non-crash conditions, where the strategy actually operates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">Capital is the floor. <em>WISE</em> is what builds on top of it — turning the wheel from a manual strategy into a disciplined, auditable system.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     WHERE WISE FITS (NEW · addresses Critique #4)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="wise" style="background:linear-gradient(180deg,transparent,rgba(22,152,112,0.04))">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker green">Where WISE fits · the engine</div>
+      <h2>The wheel is the strategy. <em>WISE is the engine that runs it.</em></h2>
+      <p class="sub">A trader can run the wheel manually — pick a strike, watch the chart, decide when to exit. WISE turns each of those judgment calls into a scored, auditable, data-driven decision. Same strategy. Different discipline.</p>
+    </div>
+
+    <!-- The three differences -->
+    <div class="grid-3 reveal" style="gap:18px;margin-bottom:36px">
+      <!-- Strike scoring -->
+      <div class="card-prominent" style="border-color:var(--blueLine);background:linear-gradient(180deg,rgba(38,116,216,0.04),var(--paper))">
+        <span class="tag blue dot">01 · Strike scoring</span>
+        <h3>Every put candidate gets ranked.</h3>
+        <p style="color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin-bottom:16px">Most tools use a fixed delta band or a set distance from spot. WISE ranks every available strike on the live chain by <strong>variance-risk-premium-adjusted edge</strong>, liquidity, survivability, and phase-specific penalties — and surfaces one recommendation.</p>
+        <div style="padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.55">
+          <strong style="color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:0.05em">→ FROM WISE:</strong> "Strike 7,165 selected. Edge score 0.83. VRP positive. Liquidity tier A. Survivable in 12-day stress."
+        </div>
+      </div>
+
+      <!-- Phase awareness -->
+      <div class="card-prominent" style="border-color:var(--amberLine);background:linear-gradient(180deg,rgba(183,121,24,0.05),var(--paper))">
+        <span class="tag amber dot">02 · Phase awareness</span>
+        <h3>Assignment isn't a failure — it's a phase change.</h3>
+        <p style="color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin-bottom:16px">When a put becomes a long MES position, WISE switches engines automatically: the put-scoring engine retires, the call-scoring engine activates, cost basis is recorded, and recovery state is tracked through every covered-call cycle until the position closes.</p>
+        <div style="padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.55">
+          <strong style="color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:0.05em">→ FROM WISE:</strong> "Phase: COVERED CALL. Cost basis 7,140. Best call: 7,200 strike. Carry: positive. Recovery 4 of 12 days."
+        </div>
+      </div>
+
+      <!-- Risk gates -->
+      <div class="card-prominent" style="border-color:var(--roseLine);background:linear-gradient(180deg,rgba(183,77,114,0.05),var(--paper))">
+        <span class="tag rose dot">03 · Named risk gates</span>
+        <h3>Refusals are auditable, not vague.</h3>
+        <p style="color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin-bottom:16px">WISE runs tiered risk gates: a <strong>VIX hard stop at ≥30</strong>, half-size at 28–30, FOMC day hard block, slow-recovery freeze, and event-tier blocks. When a trade is blocked, WISE names <em>which</em> gate stopped it — not a generic "conditions not met."</p>
+        <div style="padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.55">
+          <strong style="color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:0.05em">→ FROM WISE:</strong> "Trade blocked. Gate: FOMC_DAY. VIX 17.8. Re-evaluate after 14:30 Wednesday."
+        </div>
+      </div>
+    </div>
+
+    <!-- The before/after comparison -->
+    <div class="reveal">
+      <div style="background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-soft)">
+        <div style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="padding:32px 36px;background:rgba(141,151,168,0.04);border-right:1px solid var(--line)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700;letter-spacing:0.07em;margin-bottom:14px;text-transform:uppercase">Without WISE · manual</div>
+            <ul style="list-style:none;padding:0;margin:0">
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--muted);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--rose)">×</span>
+                Pick a strike based on intuition or a fixed rule
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--muted);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--rose)">×</span>
+                Track cost basis manually after assignment
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--muted);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--rose)">×</span>
+                Decide if VIX is "too high" by feel
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--muted);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--rose)">×</span>
+                Wonder if you missed a better candidate
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--muted);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--rose)">×</span>
+                Justify decisions to yourself in hindsight
+              </li>
+            </ul>
+          </div>
+          <div style="padding:32px 36px;background:rgba(22,152,112,0.04)">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700;letter-spacing:0.07em;margin-bottom:14px;text-transform:uppercase">With WISE · systematic</div>
+            <ul style="list-style:none;padding:0;margin:0">
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--ink-soft);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--green);font-weight:700">✓</span>
+                Scored ranking of every candidate on the chain
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--ink-soft);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--green);font-weight:700">✓</span>
+                Phase change handled automatically with cost basis
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--ink-soft);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--green);font-weight:700">✓</span>
+                Named gates block trades when conditions break
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--ink-soft);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--green);font-weight:700">✓</span>
+                Auditable decision trail from input to recommendation
+              </li>
+              <li style="padding:10px 0 10px 24px;position:relative;font-size:14px;color:var(--ink-soft);line-height:1.55">
+                <span style="position:absolute;left:0;color:var(--green);font-weight:700">✓</span>
+                Refusals come with reasons and re-entry conditions
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WISE CTA -->
+    <div class="reveal" style="margin-top:36px;text-align:center">
+      <a href="WISE_Presentation_external.html" style="display:inline-flex;align-items:center;gap:12px;padding:18px 32px;background:linear-gradient(135deg,var(--green),#0d6b52);color:var(--paper);border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:0.005em;box-shadow:0 8px 24px rgba(22,152,112,0.3);transition:transform 0.18s">
+        <span>Return to WISE presentation →</span>
+      </a>
+      <p style="margin-top:14px;font-size:13px;color:var(--muted);font-family:var(--serif);font-style:italic">Six layers · five capabilities · one auditable recommendation per cycle.</p>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">No system eliminates the risks of trading. <em>WISE makes them legible</em> — and that's what lets you stay disciplined when it matters.</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     RISKS — quantified from research (Improvement #11)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="risks">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker" style="color:var(--rose)">The honest part · risks</div>
+      <h2>The real challenge is <em>time under pressure</em>.</h2>
+      <p class="sub">The wheel collects premium reliably — but premium is not the same as profit. Three risks define what can actually go wrong, with figures from 36 years of SPX history.</p>
+    </div>
+
+    <div class="riskGrid reveal">
+      <div class="risk">
+        <span class="tag rose dot">Risk 1</span>
+        <h4>Premium is income, not a guarantee.</h4>
+        <p>You collect the premium upfront, every cycle, no matter what. But if assignment goes deep and recovery takes time, the position's mark-to-market loss can outweigh many cycles of premium collected.</p>
+        <div class="stat"><span class="k">Worst single assignment, 36yr</span><span class="v">−18.4%</span></div>
+      </div>
+      <div class="risk">
+        <span class="tag rose dot">Risk 2</span>
+        <h4>Recovery can take time.</h4>
+        <p>Median recovery from a put assignment to the call window is about 3 trading days. But the 80th-percentile case takes 12 days. And in the worst 1.6% of cases, the position has not recovered within 120 trading days.</p>
+        <div class="stat"><span class="k">80th pct recovery (put side)</span><span class="v">12 days</span></div>
+      </div>
+      <div class="risk">
+        <span class="tag rose dot">Risk 3</span>
+        <h4>Capital matters.</h4>
+        <p>During recovery, the account holds the contract through unrealised drawdown. Without enough capital to absorb the mark-to-market move, the position can be force-closed before recovery — turning a temporary loss into a permanent one.</p>
+        <div class="stat"><span class="k">Recommended capital</span><span class="v">40% notional</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     GLOSSARY (Improvement #12 — also used inline as tooltips)
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="glossary">
+  <div class="wrap">
+    <div class="sectionHeader reveal">
+      <div class="kicker">Glossary · the words you need</div>
+      <h2>Plain definitions, no jargon.</h2>
+    </div>
+
+    <div class="glossary reveal">
+      <div class="term"><h4>MES contract</h4><p>The Micro E-mini S&amp;P 500 futures contract. <strong>One point = $5</strong>.</p></div>
+      <div class="term"><h4>Put option</h4><p>A contract you sell to collect premium in exchange for accepting <strong>assignment risk</strong> below the strike.</p></div>
+      <div class="term"><h4>Strike</h4><p>The price written into the option contract. In our example: <strong>7,180</strong>.</p></div>
+      <div class="term"><h4>Premium</h4><p>The cash collected when the option is sold. Yours regardless of outcome. Example: <strong>40 pts = $200</strong>.</p></div>
+      <div class="term"><h4>Assignment</h4><p>The moment the put is exercised — you take 1 MES at the strike. Premium stays with you.</p></div>
+      <div class="term"><h4>Covered call</h4><p>A call sold against an MES contract you already hold. The MES "covers" the obligation.</p></div>
+      <div class="term"><h4>Cost basis</h4><p>Strike minus premium. Example: <strong>7,180 − 40 = 7,140</strong>. Exit at or above this and the cycle is profitable.</p></div>
+      <div class="term"><h4>Call window</h4><p>The price zone where covered calls become productive. WISE uses <strong>99% of strike</strong>.</p></div>
+      <div class="term"><h4>Called away</h4><p>The MES contract is sold at the call's strike. Cycle complete. Capital returns to cash.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     SUMMARY
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap-narrow">
+    <div class="summary reveal">
+      <div class="kicker green" style="justify-content:center">The shortest version</div>
+      <h2>Sell. Wait. Collect. <em>Repeat</em>.</h2>
+      <p>Sell a put. If it expires (about half the time), keep the premium and start again. If you're assigned, hold the MES contract, sell covered calls until you're called away, and return to cash. That's the whole strategy. <strong>WISE</strong> is what turns it from a manual judgment call into a scored, auditable, gated decision.</p>
+      
+      <div class="grid-3 grid-3-mobile-2" style="margin-top:36px;text-align:left">
+        <div class="card" style="background:rgba(255,253,248,0.9)">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--green);font-weight:800;letter-spacing:0.08em;margin-bottom:8px">PHASE ONE</div>
+          <h3>Sell put</h3>
+          <p style="color:var(--muted);font-size:13.5px;margin:0">Collect premium for accepting assignment risk at a strike below market. WISE ranks every candidate.</p>
+        </div>
+        <div class="card" style="background:rgba(255,253,248,0.9)">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:800;letter-spacing:0.08em;margin-bottom:8px">PHASE TWO</div>
+          <h3>Hold &amp; recover</h3>
+          <p style="color:var(--muted);font-size:13.5px;margin:0">If assigned, hold the contract until the call window. WISE switches engines automatically.</p>
+        </div>
+        <div class="card" style="background:rgba(255,253,248,0.9)">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--violet);font-weight:800;letter-spacing:0.08em;margin-bottom:8px">PHASE THREE</div>
+          <h3>Sell calls &amp; reset</h3>
+          <p style="color:var(--muted);font-size:13.5px;margin:0">Collect call premium until called away. WISE keeps cost basis, carry, and exit P&amp;L visible throughout.</p>
+        </div>
+      </div>
+
+      <!-- Final CTA back to WISE -->
+      <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--line)">
+        <p style="font-family:var(--display);font-weight:300;font-size:24px;line-height:1.3;letter-spacing:-0.015em;color:var(--ink);margin-bottom:24px">
+          Now you understand the wheel. <em style="font-family:var(--serif);font-style:italic;color:var(--green)">See the system that runs it.</em>
+        </p>
+          <a href="WISE_Presentation_external.html" style="display:inline-flex;align-items:center;gap:12px;padding:18px 36px;background:var(--ink);color:var(--paper);border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:0.005em;box-shadow:var(--shadow);transition:transform 0.18s">
+            <span>Continue to WISE presentation →</span>
+          </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div>WISE · Wheel Integrated Strike Engine · Field Guide</div>
+  <div style="margin-top:8px;color:var(--faint)">A companion to the <a href="WISE_Presentation_external.html">WISE presentation</a> — educational only, not a recommendation</div>
+</footer>
+
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// CONSTANTS
+// ════════════════════════════════════════════════════════════════════
+const MES_MULT = 5;      // $5 per point
+const MARKET_PX = 7200;
+const VIX = 18;          // base vol assumption
+
+// ════════════════════════════════════════════════════════════════════
+// 1. PROGRESS NAV with active section highlight (Improvement #4)
+// ════════════════════════════════════════════════════════════════════
+const navLinks = document.querySelectorAll('.navlinks a');
+const sections = ['foundation','reality','try','cycle','ladder','capital','wise','risks','glossary'];
+const progressBar = document.getElementById('progressBar');
+
+function updateProgress(){
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scrolled / total) * 100;
+  progressBar.style.width = pct + '%';
+  
+  // Highlight active section
+  let active = null;
+  for (let i = sections.length - 1; i >= 0; i--){
+    const el = document.getElementById(sections[i]);
+    if (el && el.getBoundingClientRect().top < 200){
+      active = sections[i];
+      break;
+    }
+  }
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.dataset.section === active);
+  });
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+// ════════════════════════════════════════════════════════════════════
+// 2. SCROLL-TRIGGERED REVEAL ANIMATIONS (Improvement #22)
+// ════════════════════════════════════════════════════════════════════
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting){
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => obs.observe(el));
+
+// ════════════════════════════════════════════════════════════════════
+// 3. ANIMATED HERO WHEEL — phase highlighting (Improvement #17)
+// ════════════════════════════════════════════════════════════════════
+const wheelLabels = ['wlSell','wlAssign','wlRecover','wlCall'].map(id => document.getElementById(id));
+let wheelIdx = 0;
+function cycleWheel(){
+  wheelLabels.forEach((el, i) => el.classList.toggle('active', i === wheelIdx));
+  wheelIdx = (wheelIdx + 1) % wheelLabels.length;
+}
+cycleWheel();
+setInterval(cycleWheel, 2000);
+
+// ════════════════════════════════════════════════════════════════════
+// 4. STATE PANEL (Improvement #10) — sticky updates as user scrolls
+// ════════════════════════════════════════════════════════════════════
+const statePanel = document.getElementById('statePanel');
+const stateToggle = document.getElementById('statePanelToggle');
+const statePhase = document.getElementById('statePhase');
+const statePos = document.getElementById('statePos');
+const statePremium = document.getElementById('statePremium');
+const stateMtm = document.getElementById('stateMtm');
+const stateNet = document.getElementById('stateNet');
+
+const stateConfig = {
+  'foundation':{ phase:'LEARNING',    phaseColor:'var(--blue)',   pos:'—',           prem:0,    mtm:0,    net:0    },
+  'reality':   { phase:'CONTEXT',     phaseColor:'var(--green)',  pos:'—',           prem:0,    mtm:0,    net:0    },
+  'try':       { phase:'EXPLORATION', phaseColor:'var(--violet)', pos:'—',           prem:0,    mtm:0,    net:0    },
+  'story':     { phase:'SHORT PUT',   phaseColor:'var(--blue)',   pos:'—',           prem:200,  mtm:0,    net:200  },
+  'cycle':     { phase:'IN MOTION',   phaseColor:'var(--amber)',  pos:'1 MES @ 7,180', prem:200,mtm:-150, net:50   },
+  'ladder':    { phase:'RECOVERING',  phaseColor:'var(--amber)',  pos:'1 MES @ 7,180', prem:200,mtm:-100, net:100  },
+  'scenarios': { phase:'CHOOSING',    phaseColor:'var(--violet)', pos:'varies',       prem:200, mtm:0,    net:200  },
+  'capital':   { phase:'SIZING',      phaseColor:'var(--blue)',   pos:'—',           prem:0,    mtm:0,    net:0    },
+  'wise':      { phase:'WISE',        phaseColor:'var(--green)',  pos:'system view',  prem:0,   mtm:0,    net:0    },
+  'risks':     { phase:'IN POSITION', phaseColor:'var(--rose)',   pos:'1 MES @ 7,180', prem:200,mtm:-400, net:-200 },
+  'glossary':  { phase:'COMPLETE',    phaseColor:'var(--green)',  pos:'CASH',         prem:475, mtm:0,    net:475  }
+};
+
+function fmtMoney(n){
+  const sign = n >= 0 ? '+' : '−';
+  return sign + '$' + Math.abs(n).toLocaleString();
+}
+function colorFor(n){
+  if (n > 0) return 'var(--green)';
+  if (n < 0) return 'var(--rose)';
+  return 'var(--ink)';
+}
+
+function setState(s){
+  const c = stateConfig[s];
+  if (!c) return;
+  statePhase.textContent = c.phase;
+  statePhase.style.color = c.phaseColor;
+  statePos.textContent = c.pos;
+  statePremium.textContent = c.prem ? fmtMoney(c.prem) : '$0';
+  stateMtm.textContent = c.mtm ? fmtMoney(c.mtm) : '$0';
+  stateMtm.style.color = colorFor(c.mtm);
+  stateNet.textContent = c.net ? fmtMoney(c.net) : '$0';
+  stateNet.style.color = colorFor(c.net);
+}
+
+function checkStateVisibility(){
+  // Show panel after user scrolls past hero
+  const hero = document.querySelector('.hero');
+  const heroBottom = hero.getBoundingClientRect().bottom;
+  if (heroBottom < 0){
+    statePanel.classList.add('show');
+  } else {
+    statePanel.classList.remove('show');
+  }
+  // Update content based on current section
+  let active = 'foundation';
+  for (let i = sections.length - 1; i >= 0; i--){
+    const el = document.getElementById(sections[i]);
+    if (el && el.getBoundingClientRect().top < 250){
+      active = sections[i];
+      break;
+    }
+  }
+  setState(active);
+}
+window.addEventListener('scroll', checkStateVisibility, { passive: true });
+
+let stateCollapsed = false;
+stateToggle.addEventListener('click', () => {
+  stateCollapsed = !stateCollapsed;
+  statePanel.classList.toggle('collapsed', stateCollapsed);
+  stateToggle.textContent = stateCollapsed ? '+' : '−';
+});
+statePanel.addEventListener('click', (e) => {
+  if (stateCollapsed && e.target !== stateToggle){
+    stateCollapsed = false;
+    statePanel.classList.remove('collapsed');
+    stateToggle.textContent = '−';
+  }
+});
+
+// ════════════════════════════════════════════════════════════════════
+// 5. STRIKE PICKER (Improvements #7, #23, #16)
+// ════════════════════════════════════════════════════════════════════
+// Black-Scholes-ish put premium estimator (simplified for UI)
+function estimatePremium(F, K, dte, vix){
+  const sigma = vix / 100;
+  const T = dte / 252;
+  if (T <= 0) return 0;
+  const d1 = (Math.log(F/K) + 0.5 * sigma * sigma * T) / (sigma * Math.sqrt(T));
+  const d2 = d1 - sigma * Math.sqrt(T);
+  const N = (x) => 0.5 * (1 + erf(x / Math.sqrt(2)));
+  return Math.max(0, K * N(-d2) - F * N(-d1));
+}
+function erf(x){
+  // Abramowitz & Stegun approximation
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+  const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  const t = 1 / (1 + p * x);
+  const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+  return sign * y;
+}
+function delta(F, K, dte, vix){
+  const sigma = vix / 100;
+  const T = dte / 252;
+  if (T <= 0) return 0;
+  const d1 = (Math.log(F/K) + 0.5 * sigma * sigma * T) / (sigma * Math.sqrt(T));
+  const N = (x) => 0.5 * (1 + erf(x / Math.sqrt(2)));
+  return N(d1);  // call delta; put delta = N(d1)-1, |put delta| ≈ assignment prob
+}
+
+const spStrike = document.getElementById('spStrike');
+const spDte = document.getElementById('spDte');
+const spStrikeV = document.getElementById('spStrikeV');
+const spDteV = document.getElementById('spDteV');
+const spPrem = document.getElementById('spPrem');
+const spPremPts = document.getElementById('spPremPts');
+const spProb = document.getElementById('spProb');
+const spYield = document.getElementById('spYield');
+const spCap = document.getElementById('spCap');
+const spVerdict = document.getElementById('spVerdict');
+const spChart = document.getElementById('spChart');
+
+function updateStrikePicker(){
+  const K = parseInt(spStrike.value);
+  const dte = parseInt(spDte.value);
+  spStrikeV.textContent = K.toLocaleString();
+  spDteV.textContent = dte + ' DTE';
+
+  const premPts = estimatePremium(MARKET_PX, K, dte, VIX);
+  const premDollar = premPts * MES_MULT;
+  // Assignment probability (use abs of put delta approx)
+  const assignProb = 1 - delta(MARKET_PX, K, dte, VIX);
+  const cap = K * MES_MULT * 0.4;
+  const yieldAnn = (premDollar / cap) * (252 / dte) * 100;
+
+  spPrem.textContent = '$' + Math.round(premDollar).toLocaleString();
+  spPremPts.textContent = premPts.toFixed(1) + ' pts × $5';
+  spProb.textContent = '~' + Math.round(assignProb * 100) + '%';
+  spYield.textContent = '~' + Math.round(yieldAnn) + '%';
+  spCap.textContent = '$' + Math.round(cap).toLocaleString();
+
+  // Verdict
+  let verdict = '';
+  let bgColor, lineColor, textColor;
+  if (K >= MARKET_PX){
+    verdict = '<strong>Aggressive choice.</strong> Strike at or above market means high premium but you start in the money — assignment is very likely.';
+    bgColor = 'var(--roseBg)'; lineColor = 'var(--roseLine)'; textColor = 'var(--rose)';
+  } else if (K >= MARKET_PX - 30){
+    verdict = "<strong>At-the-money territory.</strong> Maximum premium efficiency, but a coin-flip on assignment. The wheel's sweet spot for active income.";
+    bgColor = 'var(--amberBg)'; lineColor = 'var(--amberLine)'; textColor = 'var(--amberSoft)';
+  } else if (K >= MARKET_PX - 80){
+    verdict = '<strong>Balanced choice.</strong> Slightly out of the money keeps assignment frequency moderate while collecting meaningful premium.';
+    bgColor = 'var(--greenBg)'; lineColor = 'var(--greenLine)'; textColor = 'var(--greenSoft)';
+  } else {
+    verdict = '<strong>Conservative choice.</strong> Far out of the money — assignment is rare but the premium is small. Lower yield, higher safety.';
+    bgColor = 'var(--blueBg)'; lineColor = 'var(--blueLine)'; textColor = 'var(--blueSoft)';
+  }
+  spVerdict.innerHTML = verdict;
+  spVerdict.style.background = bgColor;
+  spVerdict.style.borderColor = lineColor;
+  spVerdict.style.color = textColor;
+
+  drawSpChart(K, dte, premPts);
+}
+
+function drawSpChart(K, dte, premPts){
+  // Distribution chart: shows probability density of MES at expiry, 
+  // overlaid with strike, breakeven, and current price
+  const W = 480, H = 380, P = 40;
+  const minP = 7000, maxP = 7400;
+  const sigma = (VIX/100) * MARKET_PX * Math.sqrt(dte/252);
+  const xToPx = p => P + ((p - minP) / (maxP - minP)) * (W - 2 * P);
+  
+  // Normal PDF approximation
+  const pdfPath = [];
+  let maxPdf = 0;
+  const pts = [];
+  for (let p = minP; p <= maxP; p += 4){
+    const z = (p - MARKET_PX) / sigma;
+    const pdf = Math.exp(-0.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
+    pts.push({ x: p, y: pdf });
+    if (pdf > maxPdf) maxPdf = pdf;
+  }
+  const yToPx = pdf => H - P - 30 - (pdf / maxPdf) * (H - 2 * P - 60);
+  
+  let path = `M ${xToPx(pts[0].x)} ${H - P - 30}`;
+  pts.forEach(pt => path += ` L ${xToPx(pt.x)} ${yToPx(pt.y)}`);
+  path += ` L ${xToPx(pts[pts.length-1].x)} ${H - P - 30} Z`;
+  
+  // Below-strike (assignment) area
+  const belowPts = pts.filter(p => p.x <= K);
+  let belowPath = '';
+  if (belowPts.length > 0){
+    belowPath = `M ${xToPx(belowPts[0].x)} ${H - P - 30}`;
+    belowPts.forEach(pt => belowPath += ` L ${xToPx(pt.x)} ${yToPx(pt.y)}`);
+    belowPath += ` L ${xToPx(belowPts[belowPts.length-1].x)} ${H - P - 30} Z`;
+  }
+  
+  const breakEven = K - premPts;
+  
+  spChart.innerHTML = `
+    <defs>
+      <linearGradient id="spDist" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(112,87,217,0.25)"/>
+        <stop offset="100%" stop-color="rgba(112,87,217,0.05)"/>
+      </linearGradient>
+      <linearGradient id="spAssign" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(183,77,114,0.45)"/>
+        <stop offset="100%" stop-color="rgba(183,77,114,0.1)"/>
+      </linearGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
+    
+    <!-- Grid lines -->
+    <g stroke="rgba(22,32,51,0.06)" stroke-width="1">
+      ${[7050,7100,7150,7200,7250,7300,7350].map(p => 
+        `<line x1="${xToPx(p)}" y1="${P}" x2="${xToPx(p)}" y2="${H-P-20}"/>`
+      ).join('')}
+    </g>
+    
+    <!-- Distribution curve -->
+    <path d="${path}" fill="url(#spDist)" stroke="none"/>
+    <!-- Below-strike (assigned) overlay -->
+    <path d="${belowPath}" fill="url(#spAssign)" stroke="none"/>
+    <!-- Distribution outline -->
+    <path d="${path.replace(/Z$/, '')}" fill="none" stroke="#7057d9" stroke-width="2" stroke-linejoin="round"/>
+    
+    <!-- Strike line -->
+    <line x1="${xToPx(K)}" y1="${P-10}" x2="${xToPx(K)}" y2="${H-P-20}" 
+      stroke="#162033" stroke-width="2" stroke-dasharray="6 4"/>
+    <rect x="${xToPx(K)-32}" y="${P-22}" width="64" height="18" rx="4" fill="#162033"/>
+    <text x="${xToPx(K)}" y="${P-9}" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="JetBrains Mono">${K}</text>
+    
+    <!-- Market line -->
+    <line x1="${xToPx(MARKET_PX)}" y1="${P+20}" x2="${xToPx(MARKET_PX)}" y2="${H-P-20}" 
+      stroke="#169870" stroke-width="1.5"/>
+    <text x="${xToPx(MARKET_PX)}" y="${P+15}" text-anchor="middle" font-size="9" fill="#169870" font-weight="700" font-family="Inter">MARKET ${MARKET_PX}</text>
+    
+    <!-- Breakeven line (subtle) -->
+    <line x1="${xToPx(breakEven)}" y1="${P+45}" x2="${xToPx(breakEven)}" y2="${H-P-20}" 
+      stroke="#b77918" stroke-width="1" stroke-dasharray="3 4"/>
+    <text x="${xToPx(breakEven)}" y="${P+40}" text-anchor="middle" font-size="9" fill="#b77918" font-weight="700" font-family="Inter">BREAK-EVEN ${Math.round(breakEven)}</text>
+    
+    <!-- X axis -->
+    <line x1="${P}" y1="${H-P-30}" x2="${W-P}" y2="${H-P-30}" stroke="rgba(22,32,51,0.18)" stroke-width="1"/>
+    
+    <!-- X axis labels -->
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="middle">
+      ${[7050,7150,7250,7350].map(p => 
+        `<text x="${xToPx(p)}" y="${H-P-15}">${p}</text>`
+      ).join('')}
+    </g>
+    
+    <!-- Annotations -->
+    <text x="${P+8}" y="${P+12}" font-size="11" fill="#7057d9" font-weight="700" font-family="Inter">Probability of MES at expiry</text>
+    
+    <!-- Assignment area label -->
+    ${belowPts.length > 5 ? `
+      <g>
+        <text x="${xToPx(K) - 80}" y="${H - P - 50}" font-size="10" fill="#b74d72" font-weight="800" font-family="Inter" text-anchor="middle">ASSIGNMENT ZONE</text>
+        <text x="${xToPx(K) - 80}" y="${H - P - 38}" font-size="9" fill="#b74d72" font-family="Inter" text-anchor="middle">below strike at expiry</text>
+      </g>
+    ` : ''}
+  `;
+}
+
+spStrike.addEventListener('input', updateStrikePicker);
+spDte.addEventListener('input', updateStrikePicker);
+updateStrikePicker();
+
+// ════════════════════════════════════════════════════════════════════
+// 6. PREDICT CHECKPOINTS (Improvement #2)
+// ════════════════════════════════════════════════════════════════════
+function setupPredict(containerId, answerId){
+  const container = document.getElementById(containerId);
+  const answer = document.getElementById(answerId);
+  const buttons = container.querySelectorAll('.predict-btn');
+  
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => {
+        b.disabled = true;
+        if (b.dataset.correct === 'true') b.classList.add('correct');
+        else if (b === btn) b.classList.add('wrong');
+      });
+      answer.classList.add('show');
+    });
+  });
+}
+setupPredict('predict1', 'predict1Answer');
+setupPredict('predict2', 'predict2Answer');
+
+// ════════════════════════════════════════════════════════════════════
+// 7. SCRUBBABLE TIMELINE (Improvements #19, #20, #21)
+// Full cycle as a single canvas — price, P&L, phase
+// ════════════════════════════════════════════════════════════════════
+const tlCanvas = document.getElementById('tlCanvas');
+const tlCtx = tlCanvas.getContext('2d');
+const tlScrub = document.getElementById('tlScrub');
+const tlPlay = document.getElementById('tlPlay');
+const tlDay = document.getElementById('tlDay');
+const tlPhase = document.getElementById('tlPhase');
+const tlDesc = document.getElementById('tlDesc');
+const tlPhaseTitle = document.getElementById('tlPhaseTitle');
+const tlPrem = document.getElementById('tlPrem');
+const tlMtm = document.getElementById('tlMtm');
+const tlNet = document.getElementById('tlNet');
+const tlCap = document.getElementById('tlCap');
+
+// Generate the full cycle data (24 days, 10 frames per day = 240 frames)
+const cycleData = [];
+function buildCycleData(){
+  // Phases:
+  // Day 0: pre-trade (cash, MES at 7200)
+  // Day 0-3: short put (MES drifts down to 7150)
+  // Day 3: assignment (now long MES at 7180, MES at 7150 → -150 mark)
+  // Day 3-12: recovery wait (MES moves around 7100-7140)
+  // Day 12: call window opens (MES at 7160)
+  // Day 12-20: covered call open
+  // Day 20: called away at 7195 (MES rallied)
+  // Day 20-24: cash again
+  
+  for (let f = 0; f <= 240; f++){
+    const day = f / 10;
+    let price, phase, phaseTitle, desc, premium = 0, mtm = 0, capState = 'CASH', phaseColor = 'var(--green)';
+    
+    if (day === 0){
+      price = 7200;
+      phase = 'PRE-TRADE';
+      phaseTitle = 'The cycle begins';
+      desc = '<strong>Day 0.</strong> Before any trade is placed. MES is trading at 7,200. The trader is in cash, watching for an attractive setup. WISE signals that conditions favour selling a put a few points below the market.';
+      capState = 'CASH';
+      phaseColor = 'var(--muted)';
+    } else if (day <= 3){
+      const t = day / 3;
+      price = 7200 - 50 * t + Math.sin(day * 8) * 3;
+      premium = 200;
+      mtm = 0;
+      phase = 'SHORT PUT';
+      phaseTitle = 'Put sold · waiting for expiry';
+      desc = `<strong>Day ${day.toFixed(1)}.</strong> Put sold at strike 7,180 for $200 premium. The premium is yours immediately. MES is drifting down toward the strike — the question is whether it closes below 7,180 at expiry.`;
+      capState = 'MARGIN HELD';
+      phaseColor = 'var(--blue)';
+    } else if (day <= 3.05){
+      // assignment moment
+      price = 7150;
+      premium = 200;
+      mtm = (7150 - 7180) * MES_MULT;
+      phase = 'ASSIGNED';
+      phaseTitle = 'Assignment · the wheel turns';
+      desc = `<strong>Day 3 expiry.</strong> MES closed at 7,150 — below the strike. Assignment happens. You now hold one MES contract at 7,180. Mark-to-market on the futures: −$150. But the $200 premium is still in your account, so net you are still ahead.`;
+      capState = '1 MES @ 7,180';
+      phaseColor = 'var(--blue)';
+    } else if (day <= 12){
+      // recovery wait
+      const t = (day - 3) / 9;
+      price = 7150 - 60 * Math.sin(t * Math.PI) + Math.cos(day * 4) * 8;
+      premium = 200;
+      mtm = (price - 7180) * MES_MULT;
+      phase = 'RECOVERY';
+      phaseTitle = 'Recovery wait · price below readiness';
+      desc = `<strong>Day ${day.toFixed(1)}.</strong> Price is below 7,108 — the readiness threshold. Selling a covered call now would lock in a poor exit. The strategy waits, holding the MES contract through the unrealised drawdown, until price returns to the call window.`;
+      capState = '1 MES @ 7,180';
+      phaseColor = 'var(--amber)';
+    } else if (day <= 12.5){
+      // call window opens
+      price = 7160;
+      premium = 200;
+      mtm = (price - 7180) * MES_MULT;
+      phase = 'CALL WINDOW';
+      phaseTitle = 'Call window opens';
+      desc = `<strong>Day 12.</strong> Price has recovered to 7,160 — above the 7,108 readiness threshold. Time to sell a covered call. A call at strike 7,200 for 35 pts ($175 premium) is sold against the MES position.`;
+      capState = '1 MES + 1 SHORT CALL';
+      phaseColor = 'var(--violet)';
+    } else if (day <= 20){
+      // covered call open
+      const t = (day - 12.5) / 7.5;
+      price = 7160 + 40 * t + Math.sin(day * 6) * 4;
+      premium = 200 + 175;
+      mtm = (price - 7180) * MES_MULT;
+      phase = 'COVERED CALL';
+      phaseTitle = 'Covered call open · climbing toward exit';
+      desc = `<strong>Day ${day.toFixed(1)}.</strong> Covered call at 7,200 is open. Price is climbing back. Premium banked so far: $375 (put + call). If price closes above 7,200 at the call's expiry, the contract is called away and the cycle closes.`;
+      capState = '1 MES + 1 SHORT CALL';
+      phaseColor = 'var(--violet)';
+    } else if (day <= 20.05){
+      // called away
+      price = 7200;
+      premium = 200 + 175;
+      mtm = (7200 - 7180) * MES_MULT;
+      phase = 'CALLED AWAY';
+      phaseTitle = 'Called away · cycle complete';
+      desc = `<strong>Day 20 expiry.</strong> MES closed at 7,200 — at the call's strike. Assignment on the call side: the MES is sold at 7,200. Cycle profit: $200 (put) + $175 (call) + $100 (futures gain on the 20-pt move) = <strong>$475 total</strong>.`;
+      capState = 'CASH';
+      phaseColor = 'var(--green)';
+    } else {
+      // back to cash
+      price = 7200 + Math.sin(day * 5) * 6;
+      premium = 475;
+      mtm = 0;
+      phase = 'CASH';
+      phaseTitle = 'Cycle complete · ready to repeat';
+      desc = `<strong>Day ${day.toFixed(1)}.</strong> Position closed. Capital fully returned to cash. Total cycle profit: <strong>$475</strong>. The wheel is ready to begin again — sell another put, repeat.`;
+      capState = 'CASH';
+      phaseColor = 'var(--green)';
+    }
+    
+    cycleData.push({ day, price, phase, phaseTitle, desc, premium, mtm, capState, phaseColor });
+  }
+}
+buildCycleData();
+
+// Draw the timeline canvas
+function drawTimeline(frame){
+  const W = tlCanvas.width;
+  const H = tlCanvas.height;
+  const ctx = tlCtx;
+  
+  // High-DPI handling
+  const dpr = window.devicePixelRatio || 1;
+  if (tlCanvas.width !== tlCanvas.clientWidth * dpr){
+    tlCanvas.width = tlCanvas.clientWidth * dpr;
+    tlCanvas.height = 380 * dpr;
+    tlCanvas.style.height = '380px';
+    ctx.scale(dpr, dpr);
+  }
+  const w = tlCanvas.clientWidth;
+  const h = 380;
+  
+  ctx.clearRect(0, 0, w, h);
+  
+  const padX = 60, padTop = 30, padBot = 50;
+  const chartH = (h - padTop - padBot) * 0.65;  // 65% for price
+  const pnlH = (h - padTop - padBot) * 0.35;    // 35% for P&L
+  const priceTop = padTop;
+  const priceBot = priceTop + chartH;
+  const pnlTop = priceBot + 12;
+  const pnlBot = pnlTop + pnlH;
+  
+  // Price scale: 7050 to 7250
+  const minPrice = 7060, maxPrice = 7250;
+  const xFromFrame = i => padX + (i / 240) * (w - padX - 20);
+  const yFromPrice = p => priceTop + (1 - (p - minPrice) / (maxPrice - minPrice)) * chartH;
+  
+  // P&L scale: -300 to 600
+  const minPnl = -300, maxPnl = 600;
+  const yFromPnl = pnl => pnlTop + (1 - (pnl - minPnl) / (maxPnl - minPnl)) * pnlH;
+  
+  // Phase background bands
+  const phases = [
+    { start: 0,   end: 30,  color: 'rgba(141,151,168,0.05)', label: 'Pre-trade' },
+    { start: 30,  end: 30.5,color: 'rgba(38,116,216,0.08)',  label: '' },
+    { start: 30,  end: 120, color: 'rgba(38,116,216,0.06)',  label: 'Short put' },
+    { start: 120, end: 125, color: 'rgba(183,121,24,0.10)',  label: '' },
+    { start: 125, end: 200, color: 'rgba(183,121,24,0.08)',  label: 'Recovery + Call' },
+    { start: 200, end: 240, color: 'rgba(22,152,112,0.06)',  label: 'Cash' },
+  ];
+  // Simplified phases for the band
+  const phaseBands = [
+    { start: 0,   end: 30,  fill: 'rgba(141,151,168,0.10)' },
+    { start: 30,  end: 120, fill: 'rgba(38,116,216,0.10)' },
+    { start: 120, end: 200, fill: 'rgba(183,121,24,0.12)' },
+    { start: 200, end: 240, fill: 'rgba(22,152,112,0.12)' },
+  ];
+  phaseBands.forEach(b => {
+    ctx.fillStyle = b.fill;
+    ctx.fillRect(xFromFrame(b.start), priceTop, xFromFrame(b.end) - xFromFrame(b.start), chartH);
+  });
+  
+  // Strike line (7180)
+  ctx.strokeStyle = '#2674d8';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(padX, yFromPrice(7180));
+  ctx.lineTo(w - 20, yFromPrice(7180));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Readiness line (7108)
+  ctx.strokeStyle = '#7057d9';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([3, 4]);
+  ctx.beginPath();
+  ctx.moveTo(padX, yFromPrice(7108));
+  ctx.lineTo(w - 20, yFromPrice(7108));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Y axis labels
+  ctx.font = '11px JetBrains Mono';
+  ctx.fillStyle = '#8e97a8';
+  ctx.textAlign = 'right';
+  [7080, 7140, 7200].forEach(p => {
+    ctx.fillText(p.toLocaleString(), padX - 8, yFromPrice(p) + 4);
+  });
+  // Highlighted strike label
+  ctx.fillStyle = '#2674d8';
+  ctx.font = 'bold 11px JetBrains Mono';
+  ctx.fillText('7,180 (strike)', padX - 8, yFromPrice(7180) + 4);
+  ctx.fillStyle = '#7057d9';
+  ctx.fillText('7,108 (ready)', padX - 8, yFromPrice(7108) + 4);
+  
+  // Price path (only drawn up to current frame)
+  ctx.strokeStyle = '#162033';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  for (let i = 0; i <= frame; i++){
+    const d = cycleData[i];
+    const x = xFromFrame(i);
+    const y = yFromPrice(d.price);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  // Faded future path
+  ctx.strokeStyle = 'rgba(22,32,51,0.18)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for (let i = frame; i <= 240; i++){
+    const d = cycleData[i];
+    const x = xFromFrame(i);
+    const y = yFromPrice(d.price);
+    if (i === frame) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  // Current price dot
+  const cur = cycleData[frame];
+  ctx.fillStyle = '#162033';
+  ctx.beginPath();
+  ctx.arc(xFromFrame(frame), yFromPrice(cur.price), 6, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#fffdf8';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  
+  // P&L panel
+  ctx.fillStyle = 'rgba(251,246,238,0.5)';
+  ctx.fillRect(padX, pnlTop, w - padX - 20, pnlH);
+  
+  // P&L zero line
+  ctx.strokeStyle = 'rgba(22,32,51,0.2)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padX, yFromPnl(0));
+  ctx.lineTo(w - 20, yFromPnl(0));
+  ctx.stroke();
+  
+  // P&L line
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#169870';
+  ctx.beginPath();
+  for (let i = 0; i <= frame; i++){
+    const d = cycleData[i];
+    const net = d.premium + d.mtm;
+    const x = xFromFrame(i);
+    const y = yFromPnl(net);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  // P&L fill
+  ctx.fillStyle = 'rgba(22,152,112,0.12)';
+  ctx.beginPath();
+  ctx.moveTo(xFromFrame(0), yFromPnl(0));
+  for (let i = 0; i <= frame; i++){
+    const d = cycleData[i];
+    const x = xFromFrame(i);
+    const y = yFromPnl(d.premium + d.mtm);
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(xFromFrame(frame), yFromPnl(0));
+  ctx.closePath();
+  ctx.fill();
+  
+  // P&L label
+  ctx.fillStyle = '#58647a';
+  ctx.font = '10px JetBrains Mono';
+  ctx.textAlign = 'right';
+  ctx.fillText('+$600', padX - 8, yFromPnl(600) + 4);
+  ctx.fillText('$0', padX - 8, yFromPnl(0) + 4);
+  ctx.fillText('−$300', padX - 8, yFromPnl(-300) + 4);
+  
+  ctx.fillStyle = '#162033';
+  ctx.font = 'bold 11px Inter';
+  ctx.textAlign = 'left';
+  ctx.fillText('Running net P&L', padX + 4, pnlTop + 16);
+  
+  // X axis day labels
+  ctx.font = '11px JetBrains Mono';
+  ctx.fillStyle = '#8e97a8';
+  ctx.textAlign = 'center';
+  [0, 6, 12, 18, 24].forEach(d => {
+    const x = xFromFrame(d * 10);
+    ctx.fillText('Day ' + d, x, h - 10);
+  });
+  
+  // Phase labels above price chart
+  ctx.font = 'bold 9px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#58647a';
+  ctx.fillText('SHORT PUT', xFromFrame(75), priceTop - 8);
+  ctx.fillText('RECOVERY · CALL', xFromFrame(160), priceTop - 8);
+  ctx.fillStyle = '#169870';
+  ctx.fillText('CASH', xFromFrame(220), priceTop - 8);
+}
+
+let tlPlaying = false;
+let tlAnimId = null;
+function setFrame(frame){
+  frame = Math.max(0, Math.min(240, frame));
+  tlScrub.value = frame;
+  const d = cycleData[frame];
+  tlDay.textContent = d.day.toFixed(1);
+  tlPhase.textContent = d.phase;
+  tlPhase.style.color = d.phaseColor;
+  tlDesc.innerHTML = d.desc;
+  tlPhaseTitle.textContent = d.phaseTitle;
+  
+  tlPrem.textContent = '$' + d.premium.toLocaleString();
+  
+  const mtmEl = tlMtm;
+  mtmEl.textContent = d.mtm === 0 ? '$0' : (d.mtm > 0 ? '+$' : '−$') + Math.abs(d.mtm).toLocaleString();
+  mtmEl.classList.remove('pos','neg');
+  if (d.mtm > 0) mtmEl.classList.add('pos');
+  if (d.mtm < 0) mtmEl.classList.add('neg');
+  
+  const net = d.premium + d.mtm;
+  tlNet.textContent = net === 0 ? '$0' : (net > 0 ? '+$' : '−$') + Math.abs(net).toLocaleString();
+  tlNet.classList.remove('pos','neg');
+  if (net > 0) tlNet.classList.add('pos');
+  if (net < 0) tlNet.classList.add('neg');
+  
+  tlCap.textContent = d.capState;
+  
+  drawTimeline(frame);
+}
+
+tlScrub.addEventListener('input', () => {
+  tlPlaying = false;
+  tlPlay.textContent = '▶';
+  setFrame(parseInt(tlScrub.value));
+});
+
+function playTimeline(){
+  if (!tlPlaying) return;
+  let f = parseInt(tlScrub.value);
+  f += 1;
+  if (f > 240){
+    tlPlaying = false;
+    tlPlay.textContent = '▶';
+    return;
+  }
+  setFrame(f);
+  setTimeout(playTimeline, 60);
+}
+tlPlay.addEventListener('click', () => {
+  if (parseInt(tlScrub.value) >= 240) tlScrub.value = 0;
+  tlPlaying = !tlPlaying;
+  tlPlay.textContent = tlPlaying ? '❚❚' : '▶';
+  if (tlPlaying) playTimeline();
+});
+
+// Initialize
+setFrame(0);
+window.addEventListener('resize', () => setFrame(parseInt(tlScrub.value)));
+
+// ════════════════════════════════════════════════════════════════════
+// 8. ANIMATED PRICE LADDER (Improvement #18)
+// ════════════════════════════════════════════════════════════════════
+const ladderViz = document.getElementById('ladderViz');
+const ladderBtns = document.querySelectorAll('.ladderBtn');
+
+const ladderLevels = [
+  { price: 7200, label: 'Market level', color: 'var(--ink)', position: 0 },
+  { price: 7180, label: 'Assignment strike', color: 'var(--blue)', position: 1 },
+  { price: 7140, label: 'Cost basis (breakeven)', color: 'var(--amber)', position: 2 },
+  { price: 7108, label: 'Call window opens', color: 'var(--violet)', position: 3 },
+  { price: 7050, label: 'Deep recovery', color: 'var(--rose)', position: 4 }
+];
+
+function buildLadder(){
+  ladderViz.innerHTML = '';
+  
+  // Range from 7050 to 7250
+  const minP = 7050, maxP = 7250;
+  const yFor = p => 100 - ((p - minP) / (maxP - minP)) * 100;
+  
+  // Draw level markers
+  ladderLevels.forEach((lvl, i) => {
+    const div = document.createElement('div');
+    div.className = 'ladderLevel';
+    div.style.top = yFor(lvl.price) + '%';
+    div.style.color = lvl.color;
+    div.innerHTML = `
+      <div class="ladderPrice" style="background:var(--paper);color:${lvl.color};border-color:${lvl.color}">${lvl.price.toLocaleString()}</div>
+      <span style="font-size:12px;font-weight:600;color:var(--ink-soft)">${lvl.label}</span>
+    `;
+    ladderViz.appendChild(div);
+  });
+  
+  // Animated price line
+  const priceLine = document.createElement('div');
+  priceLine.className = 'ladderPriceLine';
+  priceLine.id = 'ladderPriceLine';
+  priceLine.innerHTML = `
+    <div class="ladderPriceTag" id="ladderPriceTag">7,080</div>
+    <div class="ladderPriceDot"></div>
+  `;
+  ladderViz.appendChild(priceLine);
+  
+  setLadderPrice(7080);
+}
+
+function setLadderPrice(p){
+  const minP = 7050, maxP = 7250;
+  const yFor = pr => 100 - ((pr - minP) / (maxP - minP)) * 100;
+  const line = document.getElementById('ladderPriceLine');
+  const tag = document.getElementById('ladderPriceTag');
+  if (line) line.style.top = yFor(p) + '%';
+  if (tag) tag.textContent = p.toLocaleString();
+  
+  // Color based on zone
+  let color = 'var(--rose)';
+  if (p >= 7180) color = 'var(--green)';
+  else if (p >= 7108) color = 'var(--violet)';
+  else if (p >= 7050) color = 'var(--amber)';
+  
+  if (line){
+    line.style.background = color;
+    line.style.boxShadow = `0 0 0 4px ${color}33, 0 4px 12px ${color}55`;
+    const dot = line.querySelector('.ladderPriceDot');
+    if (dot) dot.style.background = color;
+    if (dot) dot.style.boxShadow = `0 0 0 1px ${color}`;
+    if (tag) tag.style.background = color;
+  }
+}
+
+buildLadder();
+
+ladderBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    ladderBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    setLadderPrice(parseInt(btn.dataset.price));
+  });
+});
+
+// ════════════════════════════════════════════════════════════════════
+// 9. SCENARIOS (existing pattern from original, refined)
+// ════════════════════════════════════════════════════════════════════
+const scenarios = {
+  expire: {
+    title: 'Put expires worthless',
+    body: 'MES held above 7,180 for the full 3-day life of the put. The contract expires unused. The trader keeps the full $200 premium and goes back to cash, ready to start the cycle again with a new put.',
+    path: ['Put @ 7,180', '→', 'MES &gt; 7,180', '→', 'Expired', '→', 'Keep $200'],
+    pathClass: 'good',
+    color: 'var(--green)',
+    stat1: 'None',
+    stat2: '$200',
+    stat3: '+$200',
+    stat3Color: 'var(--green)',
+    stat4: 'Sell new put',
+    viz: scenarioVizExpire()
+  },
+  assigned: {
+    title: 'Put assigned at expiry',
+    body: 'MES closed below 7,180 at expiry. The put is exercised — the trader takes one MES at 7,180. The premium of $200 is still in the account, partially offsetting the immediate mark-to-market loss. The strategy now shifts to position management.',
+    path: ['Put @ 7,180', '→', 'MES &lt; 7,180', '→', 'Assigned', '→', 'Hold 1 MES'],
+    pathClass: 'blue',
+    color: 'var(--blue)',
+    stat1: '1 MES @ 7,180',
+    stat2: '$200',
+    stat3: '+$50',
+    stat3Color: 'var(--amber)',
+    stat4: 'Wait for call window',
+    viz: scenarioVizAssigned()
+  },
+  recovery: {
+    title: 'Recovery wait — price still below readiness',
+    body: 'After assignment, MES drifted further to 7,050. Selling a covered call here would lock in a poor exit. The strategy waits — no new options sold, capital tied up, watching for price to climb back above 7,108 where covered calls become productive.',
+    path: ['Holding 1 MES', '→', 'MES = 7,050', '→', 'Below 7,108', '→', 'Wait'],
+    pathClass: '',
+    color: 'var(--amber)',
+    stat1: '1 MES @ 7,180',
+    stat2: '$200',
+    stat3: '−$450',
+    stat3Color: 'var(--rose)',
+    stat4: 'Wait for recovery',
+    viz: scenarioVizRecovery()
+  },
+  callwin: {
+    title: 'Call window opens — covered call sold',
+    body: 'MES has rallied back to 7,160 — above the 7,108 readiness threshold. The trader sells a covered call at 7,200 for $175 premium. Now collecting income on both the original put premium and the new call premium, while the MES position continues to recover.',
+    path: ['Holding 1 MES', '→', 'MES &gt; 7,108', '→', 'Sell call @ 7,200', '→', 'Collect $175'],
+    pathClass: 'violet',
+    color: 'var(--violet)',
+    stat1: '1 MES + 1 short call',
+    stat2: '$375 (put + call)',
+    stat3: '+$275',
+    stat3Color: 'var(--green)',
+    stat4: 'Wait for call expiry',
+    viz: scenarioVizCallwin()
+  },
+  finish: {
+    title: 'Called away — cycle complete',
+    body: 'MES closed at 7,200 at the call expiry — exactly at the call strike. The MES position is sold at 7,200. The cycle closes with $200 (put) + $175 (call) + $100 (futures gain on the 20-pt move) = $475 total profit. Capital returns to cash, ready to begin again.',
+    path: ['1 MES + call', '→', 'MES = 7,200', '→', 'Called away', '→', 'CASH +$475'],
+    pathClass: 'good',
+    color: 'var(--rose)',
+    stat1: 'CASH (closed)',
+    stat2: '$375 + $100 futures',
+    stat3: '+$475',
+    stat3Color: 'var(--green)',
+    stat4: 'Sell new put',
+    viz: scenarioVizFinish()
+  }
+};
+
+function scenarioVizExpire(){
+  return `<svg viewBox="0 0 480 320" width="100%" aria-label="Put expires above strike">
+    <defs>
+      <linearGradient id="gExp" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(22,152,112,0.18)"/>
+        <stop offset="100%" stop-color="rgba(22,152,112,0.04)"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="320" rx="18" fill="#f5fdf8" stroke="rgba(22,152,112,0.22)"/>
+    <rect x="60" y="20" width="400" height="140" fill="url(#gExp)"/>
+    <line x1="60" y1="160" x2="460" y2="160" stroke="#169870" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <rect x="62" y="138" width="62" height="16" rx="4" fill="#169870"/>
+    <text x="93" y="150" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">PUT STRIKE</text>
+    
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="end">
+      <text x="55" y="50">7,260</text>
+      <text x="55" y="105">7,220</text>
+      <text x="55" y="164" fill="#169870" font-weight="800">7,180</text>
+      <text x="55" y="218">7,140</text>
+    </g>
+    
+    <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    <line x1="60" y1="240" x2="460" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    
+    <path d="M 80,108 C 160,98 250,88 320,82 S 410,72 450,76" fill="none" stroke="#169870" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="450" cy="76" r="6" fill="#169870"/>
+    
+    <rect x="350" y="50" width="92" height="24" rx="8" fill="rgba(22,152,112,0.15)" stroke="rgba(22,152,112,0.4)"/>
+    <text x="396" y="66" text-anchor="middle" font-size="11" font-weight="800" fill="#0d6b52">Above strike</text>
+    
+    <rect x="100" y="270" width="280" height="32" rx="10" fill="rgba(22,152,112,0.12)" stroke="rgba(22,152,112,0.3)"/>
+    <text x="240" y="290" text-anchor="middle" font-size="13" font-weight="800" fill="#0d6b52">$200 premium kept · cycle complete</text>
+    
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="middle">
+      <text x="80" y="258">Day 0</text>
+      <text x="450" y="258" fill="#169870" font-weight="700">Expiry</text>
+    </g>
+  </svg>`;
+}
+
+function scenarioVizAssigned(){
+  return `<svg viewBox="0 0 480 320" width="100%" aria-label="Put assigned">
+    <defs>
+      <linearGradient id="gAssign" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(38,116,216,0.05)"/>
+        <stop offset="100%" stop-color="rgba(38,116,216,0.22)"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="320" rx="18" fill="#f6f9ff" stroke="rgba(38,116,216,0.22)"/>
+    <rect x="60" y="160" width="400" height="80" fill="url(#gAssign)"/>
+    <line x1="60" y1="160" x2="460" y2="160" stroke="#2674d8" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <rect x="62" y="138" width="62" height="16" rx="4" fill="#2674d8"/>
+    <text x="93" y="150" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">PUT STRIKE</text>
+    
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="end">
+      <text x="55" y="50">7,260</text>
+      <text x="55" y="105">7,220</text>
+      <text x="55" y="164" fill="#2674d8" font-weight="800">7,180</text>
+      <text x="55" y="218">7,140</text>
+    </g>
+    
+    <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    <line x1="60" y1="240" x2="460" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    
+    <path d="M 80,108 C 160,112 240,134 335,160 C 385,178 420,194 450,200" fill="none" stroke="#2674d8" stroke-width="3" stroke-linecap="round"/>
+    
+    <circle cx="335" cy="160" r="9" fill="#fff" stroke="#2674d8" stroke-width="2.5"/>
+    <circle cx="335" cy="160" r="4" fill="#2674d8"/>
+    <circle cx="450" cy="200" r="6" fill="#2674d8"/>
+    
+    <rect x="262" y="138" width="68" height="20" rx="7" fill="rgba(38,116,216,0.12)" stroke="rgba(38,116,216,0.32)"/>
+    <text x="296" y="152" text-anchor="middle" font-size="10.5" font-weight="800" fill="#1a54a8">Assigned</text>
+    
+    <rect x="78" y="270" width="324" height="32" rx="10" fill="rgba(38,116,216,0.1)" stroke="rgba(38,116,216,0.28)"/>
+    <text x="240" y="290" text-anchor="middle" font-size="13" font-weight="800" fill="#1a54a8">Holding 1 MES contract at 7,180</text>
+    
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="middle">
+      <text x="80" y="258">Day 0</text>
+      <text x="450" y="258" fill="#2674d8" font-weight="700">Expiry</text>
+    </g>
+  </svg>`;
+}
+
+function scenarioVizRecovery(){
+  return `<svg viewBox="0 0 480 320" width="100%" aria-label="Recovery wait">
+    <rect width="480" height="320" rx="18" fill="#fffdf5" stroke="rgba(183,121,24,0.26)"/>
+    
+    <rect x="60" y="20" width="400" height="40" fill="rgba(22,152,112,0.07)"/>
+    <rect x="60" y="60" width="400" height="80" fill="rgba(183,121,24,0.1)"/>
+    <rect x="60" y="140" width="400" height="100" fill="rgba(183,121,24,0.15)"/>
+    
+    <line x1="60" y1="60" x2="460" y2="60" stroke="#2674d8" stroke-width="1.5"/>
+    <rect x="62" y="38" width="62" height="16" rx="4" fill="rgba(38,116,216,0.85)"/>
+    <text x="93" y="50" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">7,180</text>
+    
+    <line x1="60" y1="140" x2="460" y2="140" stroke="#7057d9" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <rect x="62" y="118" width="62" height="16" rx="4" fill="#7057d9"/>
+    <text x="93" y="130" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">7,108</text>
+    
+    <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    <line x1="60" y1="240" x2="460" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    
+    <path d="M 60,60 C 110,75 165,108 220,140 C 280,170 340,170 400,168 S 450,172 460,170" fill="none" stroke="#b77918" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="460" cy="170" r="6" fill="#b77918"/>
+    
+    <rect x="300" y="180" width="158" height="24" rx="8" fill="rgba(183,121,24,0.22)" stroke="rgba(183,121,24,0.42)"/>
+    <text x="379" y="196" text-anchor="middle" font-size="11" font-weight="800" fill="#7a4f0b">Recovery wait</text>
+    
+    <rect x="80" y="270" width="320" height="32" rx="10" fill="rgba(183,121,24,0.12)" stroke="rgba(183,121,24,0.3)"/>
+    <text x="240" y="290" text-anchor="middle" font-size="13" font-weight="800" fill="#7a4f0b">Waiting · price still below 7,108</text>
+    
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="middle">
+      <text x="60" y="258" fill="#2674d8" font-weight="700">Assigned</text>
+      <text x="260" y="258">Week 1</text>
+      <text x="450" y="258">Recovery</text>
+    </g>
+  </svg>`;
+}
+
+function scenarioVizCallwin(){
+  return `<svg viewBox="0 0 480 320" width="100%" aria-label="Call window opens">
+    <defs>
+      <linearGradient id="gCwin" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(112,87,217,0.16)"/>
+        <stop offset="100%" stop-color="rgba(112,87,217,0.04)"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="320" rx="18" fill="#fbf8ff" stroke="rgba(112,87,217,0.28)"/>
+    <rect x="60" y="20" width="400" height="120" fill="url(#gCwin)"/>
+    <rect x="60" y="140" width="400" height="100" fill="rgba(183,121,24,0.08)"/>
+    
+    <line x1="60" y1="60" x2="460" y2="60" stroke="rgba(38,116,216,0.3)" stroke-dasharray="4 5"/>
+    <rect x="62" y="40" width="62" height="16" rx="4" fill="rgba(38,116,216,0.55)"/>
+    <text x="93" y="52" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">7,180</text>
+    
+    <line x1="60" y1="140" x2="460" y2="140" stroke="#7057d9" stroke-width="1.5"/>
+    <rect x="62" y="118" width="62" height="16" rx="4" fill="#7057d9"/>
+    <text x="93" y="130" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">7,108</text>
+    
+    <line x1="60" y1="20" x2="60" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    <line x1="60" y1="240" x2="460" y2="240" stroke="rgba(22,32,51,0.15)"/>
+    
+    <path d="M 60,60 C 110,80 165,120 225,170 C 265,185 305,170 360,135 C 400,112 435,90 460,82" fill="none" stroke="#7057d9" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="460" cy="82" r="6" fill="#7057d9"/>
+    
+    <circle cx="345" cy="140" r="9" fill="#fff" stroke="#7057d9" stroke-width="2.5"/>
+    <circle cx="345" cy="140" r="4" fill="#7057d9"/>
+    
+    <rect x="266" y="116" width="138" height="22" rx="7" fill="rgba(112,87,217,0.14)" stroke="rgba(112,87,217,0.35)"/>
+    <text x="335" y="131" text-anchor="middle" font-size="11" font-weight="800" fill="#4d38b0">Call window opens</text>
+    
+    <rect x="84" y="270" width="312" height="32" rx="10" fill="rgba(112,87,217,0.1)" stroke="rgba(112,87,217,0.28)"/>
+    <text x="240" y="290" text-anchor="middle" font-size="13" font-weight="800" fill="#4d38b0">Above 7,108 · covered call sold</text>
+    
+    <g font-size="10" fill="#8e97a8" font-family="JetBrains Mono" text-anchor="middle">
+      <text x="60" y="258" fill="#2674d8" font-weight="700">Assigned</text>
+      <text x="260" y="258">Week 1</text>
+      <text x="450" y="258" fill="#7057d9" font-weight="700">Recovered</text>
+    </g>
+  </svg>`;
+}
+
+function scenarioVizFinish(){
+  return `<svg viewBox="0 0 480 320" width="100%" aria-label="Cycle complete">
+    <rect width="480" height="320" rx="18" fill="#fafff9" stroke="rgba(22,32,51,0.12)"/>
+    
+    <rect x="20" y="20" width="216" height="280" rx="14" fill="rgba(22,152,112,0.06)" stroke="rgba(22,152,112,0.26)"/>
+    <rect x="20" y="20" width="216" height="44" rx="14" fill="rgba(22,152,112,0.18)"/>
+    <rect x="20" y="48" width="216" height="16" fill="rgba(22,152,112,0.18)"/>
+    <text x="128" y="46" text-anchor="middle" font-size="13" font-weight="800" fill="#0d6b52">Path A · Call expires</text>
+    
+    <text x="40" y="92" font-size="12" fill="#162033">✓  Call premium banked</text>
+    <text x="40" y="116" font-size="12" fill="#162033">✓  MES contract still held</text>
+    <text x="40" y="140" font-size="12" fill="#162033">✓  Sell another covered call</text>
+    
+    <line x1="40" y1="160" x2="216" y2="160" stroke="rgba(22,152,112,0.2)"/>
+    <text x="40" y="184" font-size="11" fill="#169870" font-style="italic">Cycle continues until called away</text>
+    
+    <circle cx="246" cy="160" r="20" fill="#fffdf8" stroke="rgba(22,32,51,0.15)"/>
+    <text x="246" y="166" text-anchor="middle" font-size="12" font-weight="800" fill="#8e97a8">OR</text>
+    
+    <rect x="256" y="20" width="216" height="280" rx="14" fill="rgba(38,116,216,0.06)" stroke="rgba(38,116,216,0.26)"/>
+    <rect x="256" y="20" width="216" height="44" rx="14" fill="rgba(38,116,216,0.18)"/>
+    <rect x="256" y="48" width="216" height="16" fill="rgba(38,116,216,0.18)"/>
+    <text x="364" y="46" text-anchor="middle" font-size="13" font-weight="800" fill="#1a54a8">Path B · Called away</text>
+    
+    <text x="276" y="92" font-size="12" fill="#162033">✓  Call premium banked</text>
+    <text x="276" y="116" font-size="12" fill="#162033">✓  MES sold at call strike</text>
+    <text x="276" y="140" font-size="12" fill="#162033">✓  All premium income kept</text>
+    
+    <rect x="276" y="170" width="180" height="44" rx="10" fill="rgba(38,116,216,0.1)" stroke="rgba(38,116,216,0.24)"/>
+    <text x="366" y="190" text-anchor="middle" font-size="13" font-weight="800" fill="#1a54a8">Return to cash</text>
+    <text x="366" y="207" text-anchor="middle" font-size="10" fill="#1a54a8" font-style="italic">Capital returned · cycle closed</text>
+
+  </svg>`;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 10. SCENARIO PANEL — render on tab click
+// ════════════════════════════════════════════════════════════════════
+function renderScenario(key){
+  const d = scenarios[key];
+
+  // Highlight active tab
+  document.querySelectorAll('.sTab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.key === key);
+  });
+
+  // Title + body
+  document.getElementById('sceneTitle').textContent = d.title;
+  document.getElementById('sceneBody').textContent  = d.body;
+
+  // Viz
+  document.getElementById('sceneViz').innerHTML = d.viz;
+
+  // Stats
+  const s3 = document.getElementById('sceneStat3');
+  document.getElementById('sceneStat1').textContent = d.stat1;
+  document.getElementById('sceneStat2').textContent = d.stat2;
+  s3.textContent  = d.stat3;
+  s3.style.color  = d.stat3Color;
+  document.getElementById('sceneStat4').textContent = d.stat4;
+
+  // Path pills
+  const pathEl = document.getElementById('scenePath');
+  pathEl.innerHTML = d.path.map(p =>
+    p === '→'
+      ? '<span style="color:var(--faint);font-size:12px;padding:0 2px">→</span>'
+      : `<span class="pill ${d.pathClass}" style="font-size:11px;padding:5px 10px">${p}</span>`
+  ).join('');
+}
+
+// Wire tabs
+document.querySelectorAll('.sTab').forEach(btn => {
+  btn.addEventListener('click', () => renderScenario(btn.dataset.key));
+});
+
+// Initial render
+renderScenario('expire');
+
+</script>
+</body>
+</html>
